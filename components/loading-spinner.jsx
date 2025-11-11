@@ -2,6 +2,8 @@ import React from "react";
 
 export default function LoadingSpinner() {
   return (
-    <div>LoadingSpinner</div>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-orange-500"></div>
+    </div>
   );
 }
