@@ -6,9 +6,18 @@ import { useEffect } from "react";
 import LandingPage from "@/components/landing/landing-page";
 
 export default function Home() {
-  return (
-    <div className="bg-orange-500 text-white p-4 rounded-lg">
-      Teste de Tailwind
-    </div>
-  );
+  const { isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.push("/dashboard");
+    }
+  }, [isSignedIn, isLoaded, router]);
+
+  if (!isLoaded) {
+    return <LoadingSpinner />;
+  }
+
+  return <LandingPage />;
 }
