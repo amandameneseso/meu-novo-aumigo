@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function AuthLayout() {
-    return <div>AuthLayout</div>;
+export default function AuthLayout({ children }) {
+    return <div>{children}</div>;
 }
