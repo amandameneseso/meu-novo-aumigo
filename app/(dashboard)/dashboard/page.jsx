@@ -43,9 +43,9 @@ export default function DashboardPage() {
       {/* Welcome section */}
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold">
-          Welcome back, {user?.firstName}!
+          Bem-vindo(a), {user?.firstName}!
         </h1>
-        <p>Discover your perfect pet companion based on your preferences</p>
+        <p>Descubra o animalzinho perfeito para você, com base nas suas preferências.</p>
       </div>
     </div>
   );
