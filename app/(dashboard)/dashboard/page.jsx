@@ -45,8 +45,31 @@ export default function DashboardPage() {
         <h1 className="mb-2 text-3xl font-bold">
           Bem-vindo(a), {user?.firstName}!
         </h1>
-        <p>Descubra o animalzinho perfeito para você, com base nas suas preferências.</p>
+        <p>
+          Descubra o animalzinho perfeito para você, com base nas suas
+          preferências.
+        </p>
       </div>
+
+      {!currentUser.preferences && (
+        <Card className="mb-8 border-orange-200 bg-orange-50">
+          <CardHeader>
+            <CardTitle className="flex items-center text-orange-800">
+              <Settings className="mr-2 size-5" />
+              Defina suas preferências
+            </CardTitle>
+            <CardDescription className="text-orange-700">
+              Ajude-nos a encontrar os animais de estimação perfeitos para você, definindo suas preferências nas configurações do seu perfil.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent>
+            <Link href="/dashboard/settings">
+              <Button>Atualizar preferências</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
