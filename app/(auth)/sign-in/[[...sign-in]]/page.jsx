@@ -29,7 +29,7 @@ export default function SignInPage() {
           <h1 className="text-3xl font-bold text-gray-900">
             Meu Novo Aumigo
           </h1>
-          <p className="mt-2">Bem vindo! Faça login e encontre seu mais novo amigo aqui.</p>
+          <p className="mt-2">Bem-vindo! Faça login e encontre seu mais novo amigo aqui.</p>
         </div>
 
         {/* Sign in component */}
