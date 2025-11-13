@@ -90,14 +90,14 @@ export default function Header({ onMenuClick }) {
               <Link href="/dashboard/profile">
                 <DropdownMenuItem>
                   <User className="mr-2 size-4" />
-                  <span>Profile</span>
+                  <span>Perfil</span>
                 </DropdownMenuItem>
               </Link>
 
               <Link href="/dashboard/settings">
                 <DropdownMenuItem>
                   <Settings className="mr-2 size-4" />
-                  <span>Settings</span>
+                  <span>Configurações</span>
                 </DropdownMenuItem>
               </Link>
 
@@ -106,7 +106,7 @@ export default function Header({ onMenuClick }) {
               <SignOutButton>
                 <DropdownMenuItem>
                   <LogOut className="mr-2 size-4" />
-                  <span>Log Out</span>
+                  <span>Sair</span>
                 </DropdownMenuItem>
               </SignOutButton>
             </DropdownMenuContent>
