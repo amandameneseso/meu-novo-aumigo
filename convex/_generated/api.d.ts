@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as notifications from "../notifications.js";
 import type * as pets from "../pets.js";
 import type * as users from "../users.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  notifications: typeof notifications;
   pets: typeof pets;
   users: typeof users;
 }>;
