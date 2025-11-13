@@ -72,3 +72,13 @@ export const getRecommendedPets = query({
     return pets.slice(0, 12);
   },
 });
+
+export const getPetsByOwner = query({
+  args: { ownerId: v.id("users") },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("pets")
+      .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+      .collect();
+  },
+});
