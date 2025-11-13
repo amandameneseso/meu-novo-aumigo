@@ -1,5 +1,35 @@
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+
+export const createPet = mutation({
+  args: {
+    ownerId: v.id("users"),
+    name: v.string(),
+    type: v.string(),
+    breed: v.string(),
+    age: v.number(),
+    size: v.string(),
+    gender: v.string(),
+    description: v.string(),
+    images: v.array(v.string()),
+    activityLevel: v.string(),
+    goodWithKids: v.boolean(),
+    goodWithPets: v.boolean(),
+    isHouseTrained: v.boolean(),
+    isCastrado: v.boolean(),
+    medicalInfo: v.optional(v.string()),
+    adoptionFee: v.optional(v.number()),
+    location: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("pets", {
+      ...args,
+      isAvailable: true,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
+  },
+});
 
 export const getRecommendedPets = query({
   args: {
