@@ -78,11 +78,11 @@ export default function AddPetPage() {
     e.preventDefault();
 
     if (!currentUser) {
-      toast.error("User not found");
+      toast.error("Usuário não encontrado");
       return;
     }
 
-    // Validate required fields
+    // Validar campos obrigatórios
     const requiredFields = [
       "name",
       "type",
@@ -97,12 +97,12 @@ export default function AddPetPage() {
     const missingFields = requiredFields.filter((field) => !petData[field]);
 
     if (missingFields.length > 0) {
-      toast.error("Please fill in all the required fields");
+      toast.error("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
 
     if (petData.images.length === 0) {
-      toast.error("Please upload at least one image");
+      toast.error("Por favor, envie pelo menos uma imagem.");
       return;
     }
 
@@ -131,11 +131,13 @@ export default function AddPetPage() {
         location: petData.location,
       });
 
-      toast.success("Pet added successfully");
+      toast.success("Animal de estimação adicionado com sucesso!");
       router.push("/dashboard/profile");
     } catch (error) {
-      console.error("Error creating pet", error);
-      toast.error("Failed to add pet. Please try again");
+      console.error("Erro ao adicionar o pet.", error);
+      toast.error(
+        "Não foi possível adicionar o animal de estimação. Tente novamente.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -156,7 +158,9 @@ export default function AddPetPage() {
 
         <div className="text-center">
           <PawPrint className="mx-auto mb-4 size-12 text-orange-500" />
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">Adicionar pet</h1>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">
+            Adicionar pet
+          </h1>
           <p>Ajude um bichinho a encontrar um lar definitivo!</p>
         </div>
       </div>
@@ -166,7 +170,8 @@ export default function AddPetPage() {
         <CardHeader>
           <CardTitle>Informações</CardTitle>
           <CardDescription>
-            Forneça informações detalhadas sobre o animal de estimação para ajudar os potenciais adotantes.
+            Forneça informações detalhadas sobre o animal de estimação para
+            ajudar os potenciais adotantes.
           </CardDescription>
         </CardHeader>
 
@@ -279,9 +284,15 @@ export default function AddPetPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="low">Baixo (animais calmos e relaxados)</SelectItem>
-                    <SelectItem value="medium">Médio (animais moderadamente ativos)</SelectItem>
-                    <SelectItem value="high">Alto (animais de estimação muito ativos e enérgicos)</SelectItem>
+                    <SelectItem value="low">
+                      Baixo (animais calmos e relaxados)
+                    </SelectItem>
+                    <SelectItem value="medium">
+                      Médio (animais moderadamente ativos)
+                    </SelectItem>
+                    <SelectItem value="high">
+                      Alto (animais de estimação muito ativos e enérgicos)
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
