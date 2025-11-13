@@ -335,10 +335,10 @@ export default function AddPetPage() {
                       ...prev,
                       images: [...prev.images, ...urls],
                     }));
-                    toast.success("Images uploaded successfully");
+                    toast.success("Imagens carregadas com sucesso!");
                   }}
                   onUploadError={(error) => {
-                    toast.error("Upload failed:", {
+                    toast.error("Falha no upload:", {
                       description: error.message,
                     });
                   }}
