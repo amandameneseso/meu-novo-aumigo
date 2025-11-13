@@ -83,10 +83,12 @@ export default function Sidebar({ isOpen, onClose }) {
         )}
       >
         <div className="flex h-16 items-center justify-between border-b border-gray-200 px-6">
-          <div className="flex items-center space-x-2">
-            <PawPrint className="size-8 text-orange-500" />
-            <span className="text-xl font-bold">PawPrint</span>
-          </div>
+          <Link href="/dashboard">
+            <div className="flex items-center space-x-2">
+              <PawPrint className="size-8 text-orange-500" />
+              <span className="text-xl font-bold">PawPrint</span>
+            </div>
+          </Link>
           <Button
             variant="ghost"
             size="sm"
