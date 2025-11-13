@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-// import { UploadButton } from "@uploadthing/react";
+import { UploadButton } from "@uploadthing/react";
 import { PawPrint, Save, ArrowLeft, X } from "lucide-react"; //
 import Link from "next/link";
 import Image from "next/image";
