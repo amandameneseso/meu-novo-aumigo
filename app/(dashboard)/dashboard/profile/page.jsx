@@ -58,11 +58,11 @@ export default function ProfilePage() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "pending":
+      case "pendente":
         return <Clock className="size-4 text-yellow-500" />;
-      case "accepted":
+      case "aceita":
         return <Check className="size-4 text-green-500" />;
-      case "rejected":
+      case "rejeitada":
         return <X className="size-4 text-red-500" />;
       default:
         return <Clock className="size-4 text-gray-500" />;
@@ -72,11 +72,11 @@ export default function ProfilePage() {
 // botões
   const getStatusColor = (status) => {
     switch (status) {
-      case "pending":
+      case "pendente":
         return "bg-yellow-100 text-yellow-800";
-      case "accepted":
+      case "aceita":
         return "bg-green-100 text-green-800";
-      case "rejected":
+      case "rejeitada":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -129,14 +129,14 @@ export default function ProfilePage() {
                   <Link href="/dashboard/settings">
                     <Button variant="outline">
                       <Settings className="mr-2 size-4" />
-                      Edit Profile
+                      Editar perfil
                     </Button>
                   </Link>
 
                   <Link href="/dashboard/add-pet">
                     <Button>
                       <PlusCircle className="mr-2 size-4" />
-                      Add Pet
+                      Doar pet
                     </Button>
                   </Link>
                 </div>
@@ -158,13 +158,13 @@ export default function ProfilePage() {
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center">
                 <PawPrint className="mr-2 size-5" />
-                My pets
+                Meus pets
               </div>
 
               {/* <Badge variant="secondary">{userPets?.length || 0} pets</Badge> */}
             </CardTitle>
 
-            <CardDescription>Pets you have listed for adoption</CardDescription>
+            <CardDescription>Pets que você adicionou para doação</CardDescription>
           </CardHeader>
 
           <CardContent>
@@ -182,15 +182,15 @@ export default function ProfilePage() {
               <div className="py-12 text-center">
                 <PawPrint className="mx-auto mb-4 size-12 text-gray-400" />
                 <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                  No pets listed yet
+                  Nenhum pet cadastrado
                 </h3>
                 <p className="mb-4">
-                  Start by adding a pet that needs a loving home
+                  Comece adicionando um animal de estimação que precise de um lar amoroso.
                 </p>
                 <Link href="/dashboard/add-pet">
                   <Button>
                     <PlusCircle className="mr-2 size-4" />
-                    Add your first pet
+                    Adicionar seu primeiro pet
                   </Button>
                 </Link>
               </div>
@@ -198,15 +198,15 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        {/* Applications */}
+        {/* Solicitações */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>My Applications</CardTitle>
-              <CardDescription>Applications you have submitted</CardDescription>
+              <CardTitle>Minhas solicitações</CardTitle>
+              <CardDescription>Solicitações que você enviou</CardDescription>
             </CardHeader>
 
-            {/* <CardContent>
+            <CardContent>
               {applications && applications.length > 0 ? (
                 <div className="space-y-4">
                   {applications.map((application) => (
@@ -215,7 +215,7 @@ export default function ProfilePage() {
                       className="rounded-lg border p-4"
                     >
                       <div className="mb-2 flex items-center justify-between">
-                        <h4 className="font-medium">Pet Application</h4>
+                        <h4 className="font-medium">Solicitação de adoção</h4>
                         <div className="flex items-center space-x-2">
                           {getStatusIcon(application.status)}
                           <Badge className={getStatusColor(application.status)}>
@@ -225,16 +225,16 @@ export default function ProfilePage() {
                       </div>
 
                       <p className="mb-2 text-sm text-gray-600">
-                        Applied on{" "}
+                        Enviada em{" "}
                         {new Date(application.createdAt).toLocaleDateString()}
                       </p>
 
-                      {application.status === "accepted" && (
+                      {application.status === "aceita" && (
                         <Link
                           href={`/dashboard/messages?application=${application._id}`}
                         >
                           <Button size="sm" variant="outline">
-                            Message Owner
+                            Enviar mensagem
                           </Button>
                         </Link>
                       )}
@@ -244,22 +244,22 @@ export default function ProfilePage() {
               ) : (
                 <div className="py-8 text-center">
                   <Calendar className="mx-auto mb-2 size-8 text-gray-400" />
-                  <p className="text-gray-600">No applications submitted</p>
+                  <p className="text-gray-600">Nenhuma solicitação enviada</p>
                 </div>
               )}
-            </CardContent> */}
+            </CardContent>
           </Card>
 
-          {/* Received applications */}
+          {/* Solicitações recebidas */}
           <Card>
             <CardHeader>
-              <CardTitle>Received Applications</CardTitle>
+              <CardTitle>Solicitações recebidas</CardTitle>
               <CardDescription>
-                Applications you have received for your pets
+                Solicitações que você recebeu para seus pets
               </CardDescription>
             </CardHeader>
 
-            {/* <CardContent>
+            <CardContent>
               <CardContent>
                 {receivedApplications && receivedApplications.length > 0 ? (
                   <div className="space-y-4">
@@ -269,7 +269,7 @@ export default function ProfilePage() {
                         className="rounded-lg border p-4"
                       >
                         <div className="mb-2 flex items-center justify-between">
-                          <h4 className="font-medium">Application Received</h4>
+                          <h4 className="font-medium">Solicitação recebida</h4>
                           <div className="flex items-center space-x-2">
                             {getStatusIcon(application.status)}
                             <Badge
@@ -281,16 +281,16 @@ export default function ProfilePage() {
                         </div>
 
                         <p className="mb-2 text-sm text-gray-600">
-                          Received on{" "}
+                          Recebida em{" "}
                           {new Date(application.createdAt).toLocaleDateString()}
                         </p>
 
-                        {application.status === "accepted" && (
+                        {application.status === "aceita" && (
                           <Link
                             href={`/dashboard/applications/${application._id}`}
                           >
                             <Button size="sm" variant="outline">
-                              View Details
+                              Ver detalhes
                             </Button>
                           </Link>
                         )}
@@ -301,12 +301,12 @@ export default function ProfilePage() {
                   <div className="py-8 text-center">
                     <Calendar className="mx-auto mb-2 size-8 text-gray-400" />
                     <p className="text-gray-600">
-                      No applications received yet
+                      Nenhuma solicitação recebida
                     </p>
                   </div>
                 )}
               </CardContent>
-            </CardContent> */}
+            </CardContent>
           </Card>
         </div>
       </div>
