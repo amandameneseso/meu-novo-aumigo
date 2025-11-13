@@ -26,37 +26,37 @@ const links = [
     icon: Home,
   },
   {
-    name: "Discover",
+    name: "Adotar",
     href: "/dashboard/discover",
     icon: Search,
   },
   {
-    name: "Applications",
+    name: "Aplicativos",
     href: "/dashboard/applications",
     icon: FileText,
   },
   {
-    name: "Messages",
+    name: "Mensagens",
     href: "/dashboard/messages",
     icon: MessageCircle,
   },
   {
-    name: "Notifications",
+    name: "Notificações",
     href: "/dashboard/notifications",
     icon: Bell,
   },
   {
-    name: "Profile",
+    name: "Meu perfil",
     href: "/dashboard/profile",
     icon: User,
   },
   {
-    name: "Add Pet",
+    name: "Doar pet",
     href: "/dashboard/add-pet",
     icon: PlusCircle,
   },
   {
-    name: "Settings",
+    name: "Configurações",
     href: "/dashboard/settings",
     icon: Settings,
   },
@@ -85,8 +85,8 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="flex h-16 items-center justify-between border-b border-gray-200 px-6">
           <Link href="/dashboard">
             <div className="flex items-center space-x-2">
-              <PawPrint className="size-8 text-orange-500" />
-              <span className="text-xl font-bold">PawPrint</span>
+              <PawPrint className="size-8 text-orange-500 mr-4" />
+              <span className="text-l font-bold">Meu Novo Aumigo</span>
             </div>
           </Link>
           <Button
