@@ -5,7 +5,7 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   petImages: f({
-    image: { maxFileSize: "16MB", maxFileCount: 10 },
+    image: { maxFileSize: "10MB", maxFileCount: 7 },
   }).onUploadComplete(async ({ metadata, file }) => {
     console.log("Upload complete");
     console.log("File URL:", file.ufsUrl);
