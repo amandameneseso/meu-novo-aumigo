@@ -161,7 +161,7 @@ export default function ProfilePage() {
                 Meus pets
               </div>
 
-              {/* <Badge variant="secondary">{userPets?.length || 0} pets</Badge> */}
+              <Badge variant="secondary">{userPets?.length || 0} pets</Badge>
             </CardTitle>
 
             <CardDescription>Pets que você adicionou para doação</CardDescription>
