@@ -39,6 +39,7 @@ export default defineSchema({
     goodWithKids: v.boolean(),
     goodWithPets: v.boolean(),
     isHouseTrained: v.boolean(),
+    isCastrado: v.boolean(),
     medicalInfo: v.optional(v.string()),
     adoptionFee: v.optional(v.number()),
     location: v.string(),

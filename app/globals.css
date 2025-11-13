@@ -126,4 +126,11 @@
   button {
     @apply cursor-pointer;
   }
+  label {
+    @apply !mb-1 block;
+  }
+  input,
+  textarea {
+    @apply !text-sm;
+  }
 }
