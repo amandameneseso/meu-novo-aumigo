@@ -327,7 +327,7 @@ export default function AddPetPage() {
             <div>
               <Label>Imagens do animal de estimação *</Label>
               <div className="mt-2">
-                {/* <UploadButton
+                <UploadButton
                   endpoint="petImages"
                   onClientUploadComplete={(res) => {
                     const urls = res.map((file) => file.ufsUrl);
@@ -342,7 +342,7 @@ export default function AddPetPage() {
                       description: error.message,
                     });
                   }}
-                /> */}
+                />
 
                 {petData.images.length > 0 && (
                   <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
