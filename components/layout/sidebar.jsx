@@ -31,7 +31,7 @@ const links = [
     icon: Search,
   },
   {
-    name: "Aplicativos",
+    name: "Solicitações",
     href: "/dashboard/applications",
     icon: FileText,
   },
