@@ -94,13 +94,13 @@ export default function Pet() {
     }
 
     switch (status) {
-      case "Pendente":
+      case "pendente":
         return (
           <Button className="w-full" variant="secondary" disabled>
             Solicitação em progresso
           </Button>
         );
-      case "Aceita":
+      case "aceita":
         return (
           <Link href={`/dashboard/messages?application=${application._id}`}>
             <Button className="w-full bg-green-500 hover:bg-green-600">
@@ -108,7 +108,7 @@ export default function Pet() {
             </Button>
           </Link>
         );
-      case "Rejeitada":
+      case "rejeitada":
         return (
           <Button className="w-full" variant="destructive" disabled>
             Solicitação Rejeitada
@@ -254,7 +254,7 @@ export default function Pet() {
 
                 <CardContent>
                   <div className="flex items-center space-x-2">
-                    {application.status === "Pendente" && (
+                    {application.status === "pendente" && (
                       <>
                         <div className="size-3 animate-pulse rounded-full bg-yellow-500"></div>
                         <span className="text-yellow-700">
@@ -263,14 +263,14 @@ export default function Pet() {
                       </>
                     )}
 
-                    {application.status === "Aceita" && (
+                    {application.status === "aceita" && (
                       <>
                         <Check className="size-4 text-green-500" />
                         <span className="text-green-700">Aceita</span>
                       </>
                     )}
 
-                    {application.status === "Rejeitada" && (
+                    {application.status === "rejeitada" && (
                       <>
                         <X className="size-4 text-red-500" />
                         <span className="text-red-700">Rejeitada</span>
