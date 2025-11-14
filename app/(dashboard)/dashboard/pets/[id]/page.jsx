@@ -30,6 +30,7 @@ import {
   Users,
   Weight,
   X,
+  ShieldPlus,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,13 +94,13 @@ export default function Pet() {
     }
 
     switch (status) {
-      case "pendente":
+      case "Pendente":
         return (
           <Button className="w-full" variant="secondary" disabled>
             Solicitação em progresso
           </Button>
         );
-      case "aceita":
+      case "Aceita":
         return (
           <Link href={`/dashboard/messages?application=${application._id}`}>
             <Button className="w-full bg-green-500 hover:bg-green-600">
@@ -107,10 +108,10 @@ export default function Pet() {
             </Button>
           </Link>
         );
-      case "rejeitada":
+      case "Rejeitada":
         return (
           <Button className="w-full" variant="destructive" disabled>
-            Solicitação rejeitada
+            Solicitação Rejeitada
           </Button>
         );
       default:
@@ -123,15 +124,15 @@ export default function Pet() {
   };
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
+    <div className="p-6 text-sm xl:text-base">
+      <div className="mb-2">
         <Button variant="ghost" onClick={() => router.back()} className="mb-4">
           <ArrowLeft className="mr-2 size-4" />
           Voltar
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
         {/* imagens */}
         <div className="lg:col-span-2">
           <Card>
@@ -142,7 +143,9 @@ export default function Pet() {
                     src={pet.images[selectedImageIndex]}
                     alt={pet.name}
                     fill
-                    className="object-cover"
+                    // height={500}
+                    // width={500}
+                    className="h-auto w-full rounded-lg object-contain"
                     onError={() => setImageError(true)}
                   />
                 ) : (
@@ -184,251 +187,265 @@ export default function Pet() {
             </CardContent>
           </Card>
 
-          {/* detalhes do pet */}
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle className="text-2xl">{pet.name}</CardTitle>
-              <CardDescription className="text-lg">
-                {pet.breed} &middot; {pet.type}
-              </CardDescription>
-            </CardHeader>
+          <div className="mt-6 space-y-6">
+            {/* Owner info */}
+            {owner && !isOwner && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Protetor</CardTitle>
+                </CardHeader>
 
-            <CardContent className="space-y-6">
-              {/* Basic info */}
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="size-4 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Age</p>
-                    <p className="font-medium">
-                      {pet.age} {pet.age === 1 ? "year" : "years"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Weight className="size-4 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Size</p>
-                    <p className="font-medium capitalize">{pet.size}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <User className="size-4 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Gender</p>
-                    <p className="font-medium capitalize">{pet.gender}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <MapPin className="size-4 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Location</p>
-                    <p className="font-medium capitalize">{pet.location}</p>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Characteristics */}
-              <div>
-                <h3 className="mb-4 font-semibold">Characteristics</h3>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <CardContent className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className="rounded bg-orange-100 p-2">
-                      <Activity className="size-5 text-orange-500" />
-                    </div>
+                    <Avatar className="size-12">
+                      <AvatarImage src={owner.profileImage} />
+                      <AvatarFallback>
+                        <User className="size-6" />
+                      </AvatarFallback>
+                    </Avatar>
 
                     <div>
-                      <p className="font-medium">Activity Level</p>
-                      <p className="text-sm text-gray-600 capitalize">
-                        {pet.activityLevel}
-                      </p>
+                      <p className="font-medium">{owner.name}</p>
+                      <p className="text-sm">{owner.location}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-3">
-                    <div className="rounded bg-blue-100 p-2">
-                      <Users className="size-5 text-blue-500" />
-                    </div>
+                  {owner.bio && (
+                    <p className="text-sm text-gray-700">{owner.bio}</p>
+                  )}
 
-                    <div>
-                      <p className="font-medium">Good with Kids</p>
-                      <p className="text-sm text-gray-600 capitalize">
-                        {pet.goodWithKids ? "Yes" : "No"}
-                      </p>
-                    </div>
+                  <div className="space-y-2">
+                    {owner.email && (
+                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                        <Mail className="size-4" />
+                        <span>{owner.email}</span>
+                      </div>
+                    )}
+                    {owner.phone && (
+                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                        <Phone className="size-4" />
+                        <span>{owner.phone}</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="flex items-center space-x-3">
-                    <div className="rounded bg-pink-100 p-2">
-                      <PawPrint className="size-5 text-pink-500" />
-                    </div>
+                  <div className="flex flex-col justify-center pr-10 pl-10">
+                    <Link href={`/dashboard/users/${owner._id}`}>
+                      <Button variant="outline" className="mb-4 w-full">
+                        Ver perfil
+                      </Button>
+                    </Link>
+                    {/* CTA button */}
+                    {/* <Button>
+                          <CardContent className="">{getActionButton()}</CardContent>
+                      </Button> */}
+                    {getActionButton()}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
-                    <div>
-                      <p className="font-medium">Good with Pets</p>
-                      <p className="text-sm text-gray-600 capitalize">
-                        {pet.goodWithPets ? "Yes" : "No"}
-                      </p>
-                    </div>
+            {/* status da solicitação */}
+            {application && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Status da solicitação</CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  <div className="flex items-center space-x-2">
+                    {application.status === "Pendente" && (
+                      <>
+                        <div className="size-3 animate-pulse rounded-full bg-yellow-500"></div>
+                        <span className="text-yellow-700">
+                          Aguardando revisão
+                        </span>
+                      </>
+                    )}
+
+                    {application.status === "Aceita" && (
+                      <>
+                        <Check className="size-4 text-green-500" />
+                        <span className="text-green-700">Aceita</span>
+                      </>
+                    )}
+
+                    {application.status === "Rejeitada" && (
+                      <>
+                        <X className="size-4 text-red-500" />
+                        <span className="text-red-700">Rejeitada</span>
+                      </>
+                    )}
                   </div>
 
-                  <div className="flex items-center space-x-3">
-                    <div className="rounded bg-green-100 p-2">
-                      <Home className="size-5 text-green-500" />
-                    </div>
-
-                    <div>
-                      <p className="font-medium">House Trained</p>
-                      <p className="text-sm text-gray-600 capitalize">
-                        {pet.isHouseTrained ? "Yes" : "No"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Description */}
-              <div>
-                <h3 className="mb-3 font-semibold">About {pet.name}</h3>
-                <p className="leading-relaxed text-gray-700">
-                  {pet.description}
-                </p>
-              </div>
-
-              {/* Medical info */}
-              {pet.medicalInfo && (
-                <>
-                  <Separator />
-                  <div>
-                    <h3 className="mb-3 flex items-center font-semibold">
-                      <Stethoscope className="mr-2 size-5 text-red-500" />
-                      Medical Information
-                    </h3>
-                    <p className="leading-relazed text-gray-700">
-                      {pet.medicalInfo}
-                    </p>
-                  </div>
-                </>
-              )}
-
-              {/* Adoption fee */}
-              {pet.adoptionFee && (
-                <>
-                  <Separator />
-                  <div>
-                    <h3 className="mb-3 font-semibold">Adoption Fee</h3>
-                    <p className="text-2xl font-bold text-orange-500">
-                      ${pet.adoptionFee}
-                    </p>
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
+                  <p className="mt-2 text-sm text-gray-600">
+                    Enviada em{" "}
+                    {new Date(application.createdAt).toLocaleDateString()}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
 
-        {/* Right sidebar */}
-        <div className="space-y-6">
-          {/* CTA button */}
-          <Card>
-            <CardContent className="p-6">{getActionButton()}</CardContent>
-          </Card>
+        {/* detalhes do pet */}
+        <Card className="lg:col-span-2">
+          <CardHeader className="capitalize">
+            <CardTitle className="text-2xl">{pet.name}</CardTitle>
+            <CardDescription className="text-lg">
+              {pet.breed} &middot; {pet.type}
+            </CardDescription>
+          </CardHeader>
 
-          {/* Owner info */}
-          {owner && !isOwner && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Pet Owner</CardTitle>
-              </CardHeader>
+          <CardContent className="space-y-6">
+            {/* informações básicas */}
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div className="flex items-center space-x-2">
+                <Calendar className="size-4 text-gray-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Idade</p>
+                  <p className="font-medium">
+                    {pet.age} {pet.age === 1 ? "ano" : "anos"}
+                  </p>
+                </div>
+              </div>
 
-              <CardContent className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Weight className="size-4 text-gray-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Tamanho</p>
+                  <p className="font-medium capitalize">{pet.size}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <User className="size-4 text-gray-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Gênero</p>
+                  <p className="font-medium capitalize">{pet.gender}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <MapPin className="size-4 text-gray-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Localização</p>
+                  <p className="font-medium capitalize">{pet.location}</p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* características */}
+            <div>
+              <h3 className="mb-4 font-semibold">Características</h3>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="flex items-center space-x-3">
-                  <Avatar className="size-12">
-                    <AvatarImage src={owner.profileImage} />
-                    <AvatarFallback>
-                      <User className="size-6" />
-                    </AvatarFallback>
-                  </Avatar>
+                  <div className="rounded bg-orange-100 p-2">
+                    <Activity className="size-5 text-orange-500" />
+                  </div>
 
                   <div>
-                    <p className="font-medium">{owner.name}</p>
-                    <p className="text-sm">{owner.location}</p>
+                    <p className="font-medium">Nível de atividade</p>
+                    <p className="text-sm text-gray-600 capitalize">
+                      {pet.activityLevel}
+                    </p>
                   </div>
                 </div>
 
-                {owner.bio && (
-                  <p className="text-sm text-gray-700">{owner.bio}</p>
-                )}
+                <div className="flex items-center space-x-3">
+                  <div className="rounded bg-blue-100 p-2">
+                    <Users className="size-5 text-blue-500" />
+                  </div>
 
-                <div className="space-y-2">
-                  {owner.email && (
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <Mail className="size-4" />
-                      <span>{owner.email}</span>
-                    </div>
-                  )}
-                  {owner.phone && (
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <Phone className="size-4" />
-                      <span>{owner.phone}</span>
-                    </div>
-                  )}
+                  <div>
+                    <p className="font-medium">Sociável com crianças</p>
+                    <p className="text-sm text-gray-600 capitalize">
+                      {pet.goodWithKids ? "Sim" : "Não"}
+                    </p>
+                  </div>
                 </div>
 
-                <Link href={`/dashboard/users/${owner._id}`}>
-                  <Button variant="outline" className="w-full">
-                    VIew Profile
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          )}
+                <div className="flex items-center space-x-3">
+                  <div className="rounded bg-pink-100 p-2">
+                    <PawPrint className="size-5 text-pink-500" />
+                  </div>
 
-          {/* Application status */}
-          {application && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Application Status</CardTitle>
-              </CardHeader>
-
-              <CardContent>
-                <div className="flex items-center space-x-2">
-                  {application.status === "pending" && (
-                    <>
-                      <div className="size-3 animate-pulse rounded-full bg-yellow-500"></div>
-                      <span className="text-yellow-700">Pending Review</span>
-                    </>
-                  )}
-
-                  {application.status === "accepted" && (
-                    <>
-                      <Check className="size-4 text-green-500" />
-                      <span className="text-green-700">Accepted</span>
-                    </>
-                  )}
-
-                  {application.status === "rejected" && (
-                    <>
-                      <X className="size-4 text-red-500" />
-                      <span className="text-red-700">Rejected</span>
-                    </>
-                  )}
+                  <div>
+                    <p className="font-medium">Sociável com animais</p>
+                    <p className="text-sm text-gray-600 capitalize">
+                      {pet.goodWithPets ? "Sim" : "Não"}
+                    </p>
+                  </div>
                 </div>
 
-                <p className="mt-2 text-sm text-gray-600">
-                  Applied on{" "}
-                  {new Date(application.createdAt).toLocaleDateString()}
-                </p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+                <div className="flex items-center space-x-3">
+                  <div className="rounded bg-green-100 p-2">
+                    <Home className="size-5 text-green-500" />
+                  </div>
+
+                  <div>
+                    <p className="font-medium">Adestrado</p>
+                    <p className="text-sm text-gray-600 capitalize">
+                      {pet.isHouseTrained ? "Sim" : "Não"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <div className="rounded bg-yellow-100 p-2">
+                    <ShieldPlus className="size-5 text-yellow-500" />
+                  </div>
+
+                  <div>
+                    <p className="font-medium">Castrado</p>
+                    <p className="text-sm text-gray-600 capitalize">
+                      {pet.isCastrado ? "Sim" : "Não"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* descrição */}
+            <div>
+              <h3 className="mb-3 font-semibold">História de {pet.name}</h3>
+              <p className="leading-relaxed text-gray-700">{pet.description}</p>
+            </div>
+
+            {/* informações médicas */}
+            {pet.medicalInfo && (
+              <>
+                <Separator />
+                <div>
+                  <h3 className="mb-3 flex items-center font-semibold">
+                    <Stethoscope className="mr-2 size-5 text-red-500" />
+                    Informações médicas
+                  </h3>
+                  <p className="leading-relazed text-gray-700">
+                    {pet.medicalInfo}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* taxa de adoção */}
+            {pet.adoptionFee && (
+              <>
+                <Separator />
+                <div>
+                  <h3 className="mb-3 font-semibold">Taxa de adoção</h3>
+                  <p className="text-2xl font-bold text-orange-500">
+                    R$ {pet.adoptionFee}
+                  </p>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

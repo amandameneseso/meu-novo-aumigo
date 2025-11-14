@@ -58,25 +58,25 @@ export default function ProfilePage() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "pendente":
+      case "Pendente":
         return <Clock className="size-4 text-yellow-500" />;
-      case "aceita":
+      case "Aceita":
         return <Check className="size-4 text-green-500" />;
-      case "rejeitada":
+      case "Rejeitada":
         return <X className="size-4 text-red-500" />;
       default:
         return <Clock className="size-4 text-gray-500" />;
     }
   };
 
-// botões
+  // botões
   const getStatusColor = (status) => {
     switch (status) {
-      case "pendente":
+      case "Pendente":
         return "bg-yellow-100 text-yellow-800";
-      case "aceita":
+      case "Aceita":
         return "bg-green-100 text-green-800";
-      case "rejeitada":
+      case "Rejeitada":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -164,7 +164,9 @@ export default function ProfilePage() {
               <Badge variant="secondary">{userPets?.length || 0} pets</Badge>
             </CardTitle>
 
-            <CardDescription>Pets que você adicionou para doação</CardDescription>
+            <CardDescription>
+              Pets que você adicionou para doação
+            </CardDescription>
           </CardHeader>
 
           <CardContent>
@@ -185,7 +187,8 @@ export default function ProfilePage() {
                   Nenhum pet cadastrado
                 </h3>
                 <p className="mb-4">
-                  Comece adicionando um animal de estimação que precise de um lar amoroso.
+                  Comece adicionando um animal de estimação que precise de um
+                  lar amoroso.
                 </p>
                 <Link href="/dashboard/add-pet">
                   <Button>
@@ -229,7 +232,7 @@ export default function ProfilePage() {
                         {new Date(application.createdAt).toLocaleDateString()}
                       </p>
 
-                      {application.status === "aceita" && (
+                      {application.status === "Aceita" && (
                         <Link
                           href={`/dashboard/messages?application=${application._id}`}
                         >
@@ -285,7 +288,7 @@ export default function ProfilePage() {
                           {new Date(application.createdAt).toLocaleDateString()}
                         </p>
 
-                        {application.status === "aceita" && (
+                        {application.status === "Aceita" && (
                           <Link
                             href={`/dashboard/applications/${application._id}`}
                           >

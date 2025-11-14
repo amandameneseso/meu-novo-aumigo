@@ -245,8 +245,8 @@ export default function AddPetPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="male">Macho</SelectItem>
-                    <SelectItem value="female">Fêmea</SelectItem>
+                    <SelectItem value="Macho">Macho</SelectItem>
+                    <SelectItem value="Fêmea">Fêmea</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

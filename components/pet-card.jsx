@@ -38,19 +38,19 @@ export default function PetCard({ pet, currentUserId }) {
     }
 
     switch (application.status) {
-      case "pendente":
+      case "Pendente":
         return {
           text: "Pendente",
           variant: "secondary",
           disabled: true,
         };
-      case "aceita":
+      case "Aceita":
         return {
           text: "Aceita",
           variant: "default",
           href: `/dashboard/messages?application=${application._id}`,
         };
-      case "rejeitada":
+      case "Rejeitada":
         return {
           text: "Rejeitada",
           variant: "destructive",
@@ -97,7 +97,7 @@ export default function PetCard({ pet, currentUserId }) {
         <div className="space-y-3">
           {/* informações */}
           <div>
-            <h3 className="text-lg font-semibold mt-[-10px]">{pet.name}</h3>
+            <h3 className="mt-[-10px] text-lg font-semibold">{pet.name}</h3>
             <p className="text-sm capitalize">
               {pet.breed} &middot; {pet.type}
             </p>
