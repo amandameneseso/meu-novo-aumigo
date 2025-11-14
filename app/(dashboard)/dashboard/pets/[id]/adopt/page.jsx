@@ -26,6 +26,7 @@ import { ArrowLeft, PawPrint, Send } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
+import Image from "next/image";
 import LoadingSpinner from "@/components/loading-spinner";
 
 export default function AdoptPage() {
@@ -129,29 +130,40 @@ export default function AdoptPage() {
         <Link href={`/dashboard/pets/${pet._id}`}>
           <Button variant="ghost" className="mb-4">
             <ArrowLeft className="mr-2 size-4" />
-            Back to {pet.name}s profile
+            Voltar ao perfil de {pet.name}
           </Button>
         </Link>
 
         <div className="text-center">
           <PawPrint className="mx-auto mb-4 size-12 text-orange-500" />
           <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Adopt {pet.name}
+            Adotar {pet.name}
           </h1>
-          <p>Fill out this application to start the adoption process</p>
+          <p className="w-[65%] mx-auto">Preencha este formulário para iniciar o processo de adoção. O dono do pet será notificado e receberá a solicitação.</p>
         </div>
       </div>
 
-      {/* Pet summary */}
+      {/* resumo do pet */}
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Pet Information</CardTitle>
+          <CardTitle>Resumo</CardTitle>
         </CardHeader>
 
         <CardContent>
-          <div className="flex items-center space-x-4">
-            <div className="flex size-16 items-center justify-center rounded-lg bg-gray-100">
-              <PawPrint className="size-8 text-gray-400" />
+          <div className="flex items-center space-x-5">
+            <div className="relative size-23 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
+              {pet.images && pet.images.length > 0 ? (
+                <Image
+                  src={pet.images[0]} // Usa a primeira imagem
+                  alt={`Foto de ${pet.name}`}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center">
+                  <PawPrint className="size-8 text-gray-400" />
+                </div>
+              )}
             </div>
 
             <div>
@@ -159,28 +171,31 @@ export default function AdoptPage() {
               <p>
                 {pet.breed} &middot; {pet.type}
               </p>
+              <p>
+                &quot;Obrigado por querer me adotar e me dar um novo lar
+                :D&quot;
+              </p>
               <p className="text-sm text-gray-500">
-                {pet.age} years old &middot; {pet.location}
+                {pet.age} anos &middot; {pet.location}
               </p>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Application form */}
+      {/* formulário */}
       <Card>
         <CardHeader>
-          <CardTitle>Adoption Application</CardTitle>
+          <CardTitle>Solicitação de adoção</CardTitle>
           <CardDescription>
-            Please provide detailed information to help us ensure the best match
-            for {pet.name}
+            Por favor, forneça informações detalhadas para nos ajudar a garantir o novo lar perfeito para {pet.name}.
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="experience">Experience with pets *</Label>
+              <Label htmlFor="experience">Experiência com bichinhos *</Label>
               <Select
                 value={formData.experience}
                 onValueChange={(value) =>
@@ -188,24 +203,24 @@ export default function AdoptPage() {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select your experience level" />
+                  <SelectValue placeholder="Selecione seu nível de experiência" />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectItem value="first-time">
-                    First-time pet owner
+                    Dono de um bichinho pela primeira vez
                   </SelectItem>
-                  <SelectItem value="some">Some experience</SelectItem>
-                  <SelectItem value="experienced">Very experienced</SelectItem>
+                  <SelectItem value="some">Pouca experiência</SelectItem>
+                  <SelectItem value="experienced">Muita experiência</SelectItem>
                   <SelectItem value="professional">
-                    Professional (vet, trainer, etc)
+                    Profissional (veterinário, treinador, etc.)
                   </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label htmlFor="livingSpace">Living Space *</Label>
+              <Label htmlFor="livingSpace">Espaço habitacional *</Label>
               <Select
                 value={formData.livingSpace}
                 onValueChange={(value) =>
@@ -213,130 +228,104 @@ export default function AdoptPage() {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Describe your living space" />
+                  <SelectValue placeholder="Descreva seu espaço habitacional" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="apartment">Apartment</SelectItem>
+                  <SelectItem value="apartment">Apartamento</SelectItem>
                   <SelectItem value="house-no-yard">
-                    House without yard
+                    Casa sem quintal
                   </SelectItem>
                   <SelectItem value="house-small-yard">
-                    House with small yard
+                    Casa com quintal pequeno
                   </SelectItem>
                   <SelectItem value="house-large-yard">
-                    House with large yard
+                    Casa com quintal grande
                   </SelectItem>
-                  <SelectItem value="farm">Farm / Rural property</SelectItem>
+                  <SelectItem value="farm">Propriedade rural</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            {/* <div>
-              <Label htmlFor="workSchedule">Work Schedule *</Label>
-              <Select
-                value={formData.workSchedule}
-                onValueChange={(value) =>
-                  handleInputChange("workSchedule", value)
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select your work schedule" />
-                </SelectTrigger>
-
-                <SelectContent>
-                  <SelectItem value="work-from-home">Work from home</SelectItem>
-                  <SelectItem value="part-time">
-                    Part Time (less than 6 hours / day)
-                  </SelectItem>
-                  <SelectItem value="full-time">
-                    Full time (6-8 hours / day)
-                  </SelectItem>
-                  <SelectItem value="long-hours">
-                    Long hours (more than 8 hours / day)
-                  </SelectItem>
-                  <SelectItem value="retired">Retired</SelectItem>
-                  <SelectItem value="student">Student</SelectItem>
-                </SelectContent>
-              </Select>
-            </div> */}
-
             <div>
-              <Label htmlFor="otherPets">Other pets in household *</Label>
+              <Label htmlFor="otherPets">Outros bichinhos na casa *</Label>
               <Select
                 value={formData.otherPets}
                 onValueChange={(value) => handleInputChange("otherPets", value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Do you have other pets?" />
+                  <SelectValue placeholder="Você tem outros animais de estimação?" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="none">No other pets</SelectItem>
-                  <SelectItem value="dogs">Dogs</SelectItem>
-                  <SelectItem value="cats">Cats</SelectItem>
-                  <SelectItem value="both">Both cats and dogs</SelectItem>
-                  <SelectItem value="other">Other animals</SelectItem>
+                  <SelectItem value="none">Nenhum outro animal</SelectItem>
+                  <SelectItem value="dogs">Cachorro(s)</SelectItem>
+                  <SelectItem value="cats">Gato(s)</SelectItem>
+                  <SelectItem value="both">Cachorro(s) e gato(s)</SelectItem>
+                  <SelectItem value="other">Outros animais</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label htmlFor="reason">
-                Why do you want to adopt {pet.name}
+                Por que você quer adotar {pet.name}? *
               </Label>
               <Textarea
                 id="reason"
-                placeholder="Tell us why you are interested in adopting this pet..."
+                placeholder="Conte-nos por que você tem interesse em adotar este animal de estimação..."
                 value={formData.reason}
                 onChange={(e) => handleInputChange("reason", e.target.value)}
-                rows={4}
+                rows={3}
+                maxLength={450}
               />
             </div>
 
             <div>
-              <Label htmlFor="references">References (Optional)</Label>
+              <Label htmlFor="references">Referências (opcional)</Label>
               <Textarea
                 id="references"
-                placeholder="Please provide contact information for references (veterinarian, previous pet experience, etc)"
+                placeholder="Por favor, forneça informações para referências (veterinário, experiência anterior com animais de estimação, etc.)..."
                 value={formData.references}
                 onChange={(e) =>
                   handleInputChange("references", e.target.value)
                 }
                 rows={3}
+                maxLength={450}
               />
             </div>
 
             <div>
               <Label htmlFor="additionalInfo">
-                Additional Information (Optional)
+                Informações adicionais (opcional)
               </Label>
               <Textarea
                 id="additionalInfo"
-                placeholder="Any additional information you would like to share..."
+                placeholder="Qualquer informação adicional que você queira compartilhar..."
                 value={formData.additionalInfo}
                 onChange={(e) =>
                   handleInputChange("additionalInfo", e.target.value)
                 }
                 rows={3}
+                maxLength={450}
               />
             </div>
 
             <div className="flex justify-end space-x-4">
               <Link href={`/dashboard/pets/${pet._id}`}>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline">Cancelar</Button>
               </Link>
 
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <div className="mr-2 size-4 animate-spin rounded-full border-b-2 border-white"></div>
-                    Submitting...
+                    Enviando...
                   </>
                 ) : (
                   <>
                     <Send className="mr-2 size-4" />
-                    Submit application
+                    Enviar solicitação
                   </>
                 )}
               </Button>
