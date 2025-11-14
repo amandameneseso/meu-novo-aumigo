@@ -229,9 +229,9 @@ export default function Pet() {
                     )}
                   </div>
 
-                  <div className="flex flex-col justify-center pr-10 pl-10">
+                  <div className="flex items-center justify-center w-full">
                     <Link href={`/dashboard/users/${owner._id}`}>
-                      <Button variant="outline" className="mb-4 w-full">
+                      <Button variant="outline" className="mb-4">
                         Ver perfil
                       </Button>
                     </Link>
@@ -239,7 +239,7 @@ export default function Pet() {
                     {/* <Button>
                           <CardContent className="">{getActionButton()}</CardContent>
                       </Button> */}
-                    {getActionButton()}
+                    {/* {getActionButton()} */}
                   </div>
                 </CardContent>
               </Card>
@@ -444,6 +444,7 @@ export default function Pet() {
                 </div>
               </>
             )}
+            <div className="flex items-center justify-center w-[100%]">{getActionButton()}</div>
           </CardContent>
         </Card>
       </div>
