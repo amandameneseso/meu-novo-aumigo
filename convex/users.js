@@ -38,6 +38,13 @@ export const getUserByClerkId = query({
   },
 });
 
+export const getUserById = query({
+  args: { id: v.id("users") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
+
 export const updateUser = mutation({
   args: {
     id: v.id("users"),
