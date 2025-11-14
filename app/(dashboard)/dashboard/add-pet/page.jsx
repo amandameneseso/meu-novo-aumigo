@@ -200,7 +200,7 @@ export default function AddPetPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="cachorro">Cachorro</SelectItem>
+                    <SelectItem value="Cachorro">Cachorro</SelectItem>
                     <SelectItem value="gato">Gato</SelectItem>
                     <SelectItem value="aves">Aves</SelectItem>
                     <SelectItem value="coelho">Coelho</SelectItem>
@@ -264,9 +264,9 @@ export default function AddPetPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="small">Pequeno</SelectItem>
-                    <SelectItem value="medium">Médio</SelectItem>
-                    <SelectItem value="large">Grande</SelectItem>
+                    <SelectItem value="Pequeno">Pequeno</SelectItem>
+                    <SelectItem value="Médio">Médio</SelectItem>
+                    <SelectItem value="Grande">Grande</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

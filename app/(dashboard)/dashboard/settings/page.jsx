@@ -285,7 +285,7 @@ export default function SettingsPage() {
               <p className="mb-3 text-sm">Selecione uma ou mais opções</p>
 
               <div className="grid grid-cols-3 gap-3">
-                {["pequeno", "médio", "grande"].map((size) => (
+                {["Pequeno", "Médio", "Grande"].map((size) => (
                   <div key={size} className="flex items-center space-x-2">
                     <Checkbox
                       id={size}
