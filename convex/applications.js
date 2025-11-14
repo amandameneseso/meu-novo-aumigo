@@ -9,7 +9,7 @@ export const createApplication = mutation({
     applicationData: v.object({
       experience: v.string(),
       livingSpace: v.string(),
-      workSchedule: v.string(),
+      // workSchedule: v.string(),
       otherPets: v.string(),
       reason: v.string(),
       references: v.optional(v.string()),
