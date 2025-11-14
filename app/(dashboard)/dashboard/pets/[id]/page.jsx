@@ -229,7 +229,7 @@ export default function Pet() {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-center w-full">
+                  <div className="flex w-full items-center justify-center">
                     <Link href={`/dashboard/users/${owner._id}`}>
                       <Button variant="outline" className="mb-4">
                         Ver perfil
@@ -444,7 +444,9 @@ export default function Pet() {
                 </div>
               </>
             )}
-            <div className="flex items-center justify-center w-[100%]">{getActionButton()}</div>
+            <div className="flex w-[100%] items-center justify-center">
+              {getActionButton()}
+            </div>
           </CardContent>
         </Card>
       </div>
