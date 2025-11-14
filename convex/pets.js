@@ -112,3 +112,10 @@ export const getPetsByOwner = query({
       .collect();
   },
 });
+
+export const getPetById = query({
+  args: { id: v.id("pets") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
