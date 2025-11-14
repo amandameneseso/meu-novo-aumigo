@@ -1,5 +1,22 @@
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+
+export const createNotification = mutation({
+  args: {
+    userId: v.id("users"),
+    type: v.string(),
+    title: v.string(),
+    message: v.string(),
+    relatedId: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("notifications", {
+      ...args,
+      isRead: false,
+      createdAt: Date.now(),
+    });
+  },
+});
 
 export const getUnreadCount = query({
   args: { userId: v.id("users") },
