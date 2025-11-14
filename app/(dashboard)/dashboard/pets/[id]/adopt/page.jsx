@@ -36,7 +36,7 @@ export default function AdoptPage() {
   const [formData, setFormData] = useState({
     experience: "",
     livingSpace: "",
-    workSchedule: "",
+    // workSchedule: "",
     otherPets: "",
     reason: "",
     references: "",
@@ -75,7 +75,7 @@ export default function AdoptPage() {
     const requiredFields = [
       "experience",
       "livingSpace",
-      "workSchedule",
+      // "workSchedule",
       "otherPets",
       "reason",
     ];
