@@ -87,7 +87,7 @@ export default function PetCard({ pet, currentUserId }) {
 
           <div className="absolute top-3 right-3">
             <Badge variant={pet.isAvailable ? "default" : "secondary"}>
-              {pet.isAvailable ? "Available" : "Not Available"}
+              {pet.isAvailable ? "Disponível" : "Indisponível"}
             </Badge>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function PetCard({ pet, currentUserId }) {
             <div className="flex items-center space-x-1">
               <Calendar className="size-4" />
               <span>
-                {pet.age} {pet.age === 1 ? "year" : "years"}
+                {pet.age} {pet.age === 1 ? "ano" : "anos"}
               </span>
             </div>
 
@@ -121,7 +121,7 @@ export default function PetCard({ pet, currentUserId }) {
           {/* localização */}
           <div className="flex items-center space-x-1 text-sm text-gray-600">
             <MapPin className="size-4" />
-            <span>{pet.location}</span>
+            <span className="capitalize">{pet.location}</span>
           </div>
 
           {/* informações do dono */}
