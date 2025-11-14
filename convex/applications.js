@@ -19,7 +19,7 @@ export const createApplication = mutation({
   handler: async (ctx, args) => {
     return await ctx.db.insert("adoptionApplications", {
       ...args,
-      status: "pending",
+      status: "pendente",
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
