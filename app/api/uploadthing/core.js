@@ -5,7 +5,7 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   petImages: f({
-    image: { maxFileSize: "16MB", maxFileCount: 20 },
+    image: { maxFileSize: "10MB", maxFileCount: 10 },
   })
     .middleware(async () => {
       const { userId } = await auth();
