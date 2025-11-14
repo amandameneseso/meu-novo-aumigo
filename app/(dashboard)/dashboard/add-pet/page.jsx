@@ -284,13 +284,13 @@ export default function AddPetPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="low">
+                    <SelectItem value="Baixo">
                       Baixo (animais calmos e relaxados)
                     </SelectItem>
-                    <SelectItem value="medium">
+                    <SelectItem value="Médio">
                       Médio (animais moderadamente ativos)
                     </SelectItem>
-                    <SelectItem value="high">
+                    <SelectItem value="Alto">
                       Alto (animais de estimação muito ativos e enérgicos)
                     </SelectItem>
                   </SelectContent>
