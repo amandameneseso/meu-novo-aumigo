@@ -83,7 +83,7 @@ export default function DashboardPage() {
         </div>
 
         {recommendedPets && recommendedPets.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {recommendedPets.slice(0, 8).map((pet) => (
               <PetCard
                 key={pet._id}
