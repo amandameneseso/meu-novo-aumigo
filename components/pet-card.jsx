@@ -97,7 +97,7 @@ export default function PetCard({ pet, currentUserId }) {
         <div className="space-y-3">
           {/* informações */}
           <div>
-            <h3 className="text-lg font-semibold">{pet.name}</h3>
+            <h3 className="text-lg font-semibold mt-[-10px]">{pet.name}</h3>
             <p className="text-sm capitalize">
               {pet.breed} &middot; {pet.type}
             </p>
