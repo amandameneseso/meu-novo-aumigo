@@ -51,6 +51,13 @@ export default function UserProfilePage() {
   const isOwnProfile = currentUser._id === profileUser._id;
   const availablePets = userPets?.filter((pet) => pet.isAvailable || []);
 
+  const experienceLabels = {
+    "first-time": "Dono de pet pela primeira vez",
+    some: "Pouca experiência",
+    experienced: "Muita experiência",
+    professional: "Profissional",
+  };
+
   return (
     <div className="mx auto max-w-6x p-4 sm:p-6">
       <div className="mb-6">
@@ -106,7 +113,7 @@ export default function UserProfilePage() {
                   <div className="flex items-center space-x-2">
                     <Calendar className="size-4 shrink-0" />
                     <span>
-                      Entrou em {" "}
+                      Entrou em{" "}
                       {new Date(profileUser.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -182,7 +189,7 @@ export default function UserProfilePage() {
 
             <CardContent>
               {availablePets?.length > 0 ? (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 sm:gap-6 xl:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
                   {" "}
                   {availablePets.map((pet) => (
                     <PetCard
@@ -196,7 +203,9 @@ export default function UserProfilePage() {
                 <div className="py-8 text-center sm:py-12">
                   <PawPrint className="mx-auto mb-4 size-12 text-gray-400" />
                   <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                    {isOwnProfile ? "Ainda não há pets cadastrados." : "Nenhum pet disponível."}
+                    {isOwnProfile
+                      ? "Ainda não há pets cadastrados."
+                      : "Nenhum pet disponível."}
                   </h3>
                   <p className="mb-4">
                     {isOwnProfile
@@ -220,7 +229,8 @@ export default function UserProfilePage() {
               <CardHeader>
                 <CardTitle>Suas preferências</CardTitle>
                 <CardDescription>
-                  Essas preferências nos ajudam a recomendar os animais de estimação perfeitos para você.
+                  Essas preferências nos ajudam a recomendar os animais de
+                  estimação perfeitos para você.
                 </CardDescription>
               </CardHeader>
 
@@ -229,9 +239,7 @@ export default function UserProfilePage() {
                   {currentUser.preferences.petType &&
                     currentUser.preferences.petType.length > 0 && (
                       <div>
-                        <h4 className="mb-2 font-medium text-gray-900">
-                          Tipo
-                        </h4>
+                        <h4 className="mb-2 font-medium text-gray-900">Tipo</h4>
                         <div className="flex flex-wrap gap-2">
                           {currentUser.preferences.petType.map((type) => (
                             <Badge
@@ -277,15 +285,13 @@ export default function UserProfilePage() {
                     </div>
                   )}
 
-                  {/* isCastrado */}
-
                   {currentUser.preferences.experience && (
                     <div>
                       <h4 className="mb-2 font-medium text-gray-900">
                         Experiência
                       </h4>
-                      <Badge variant="outline" className="capitalize">
-                        {currentUser.preferences.experience.replace("-", " ")}
+                      <Badge variant="outline">
+                        {experienceLabels[currentUser.preferences.experience] || currentUser.preferences.experience}{" "}
                       </Badge>
                     </div>
                   )}
