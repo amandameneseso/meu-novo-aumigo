@@ -534,7 +534,7 @@ export default function EditPetPage() {
               />
             </div>
 
-            {/* Botão enviar */}
+            {/* botão enviar */}
             <div className="flex justify-end space-x-4">
               <Link href="/dashboard/profile">
                 <Button variant="outline">Cancelar</Button>
