@@ -151,7 +151,7 @@ export default function AdoptPage() {
 
         <CardContent>
           <div className="flex items-center space-x-5">
-            <div className="relative size-24 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
+            <div className="relative size-24 shrink-0 overflow-hidden rounded-lg bg-gray-100">
               {pet.images && pet.images.length > 0 ? (
                 <Image
                   src={pet.images[0]} // Usa a primeira imagem
