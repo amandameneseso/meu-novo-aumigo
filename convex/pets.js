@@ -66,7 +66,7 @@ export const getRecommendedPets = query({
     }
 
     if (size && size.length > 0) {
-      pets = pets.filter((pet) => size.includes(pet.type));
+      pets = pets.filter((pet) => size.includes(pet.size));
     }
 
     if (activityLevel) {
@@ -117,5 +117,42 @@ export const getPetById = query({
   args: { id: v.id("pets") },
   handler: async (ctx, args) => {
     return await ctx.db.get(args.id);
+  },
+});
+
+export const updatePet = mutation({
+  args: {
+    id: v.id("pets"),
+    name: v.optional(v.string()),
+    type: v.optional(v.string()),
+    breed: v.optional(v.string()),
+    age: v.optional(v.number()),
+    size: v.optional(v.string()),
+    gender: v.optional(v.string()),
+    description: v.optional(v.string()),
+    images: v.optional(v.array(v.string())),
+    isAvailable: v.optional(v.boolean()),
+    activityLevel: v.optional(v.string()),
+    goodWithKids: v.optional(v.boolean()),
+    goodWithPets: v.optional(v.boolean()),
+    isHouseTrained: v.optional(v.boolean()),
+    isCastrado: v.optional(v.boolean()),
+    location: v.optional(v.string()),
+    medicalInfo: v.optional(v.string()),
+    adoptionFee: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const { id, ...updateData } = args;
+    return await ctx.db.patch(id, {
+      ...updateData,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
+export const deletePet = mutation({
+  args: { id: v.id("pets") },
+  handler: async (ctx, args) => {
+    return await ctx.db.delete(args.id);
   },
 });
