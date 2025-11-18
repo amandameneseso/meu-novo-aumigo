@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,13 +25,14 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { UploadButton } from "@uploadthing/react";
-import { PawPrint, Save, ArrowLeft, X } from "lucide-react"; //
+import { PawPrint, Save, ArrowLeft, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import LoadingSpinner from "@/components/loading-spinner";
 import { toast } from "sonner";
 
-export default function AddPetPage() {
+export default function EditPetPage() {
+  const { id } = useParams();
   const router = useRouter();
   const { user } = useUser();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +59,33 @@ export default function AddPetPage() {
     api.users.getUserByClerkId,
     user?.id ? { clerkId: user.id } : "skip",
   );
-  const createPet = useMutation(api.pets.createPet);
+  const pet = useQuery(api.pets.getPetById, { id: id });
+  const updatePet = useMutation(api.pets.updatePet);
+  const deletePet = useMutation(api.pets.deletePet);
+
+  useEffect(() => {
+    if (pet) {
+      setPetData({
+        name: pet.name || "",
+        type: pet.type || "",
+        breed: pet.breed || "",
+        age: parseInt(pet.age) || "",
+        size: pet.size || "",
+        gender: pet.gender || "",
+        description: pet.description || "",
+        images: pet.images || [],
+        activityLevel: pet.activityLevel || "",
+        goodWithKids: pet.goodWithKids || false,
+        goodWithPets: pet.goodWithPets || false,
+        isHouseTrained: pet.isHouseTrained || false,
+        isCastrado: pet.isCastrado || false,
+        medicalInfo: pet.medicalInfo || "",
+        adoptionFee: pet.adoptionFee?.toString() || "",
+        location: pet.location || "",
+        isAvailable: pet.isAvailable !== undefined ? pet.isAvailable : true,
+      });
+    }
+  }, [pet]);
 
   const handleInputChange = (field, value) => {
     setPetData((prev) => ({
@@ -77,8 +104,14 @@ export default function AddPetPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!currentUser) {
-      toast.error("Usuário não encontrado");
+    if (!currentUser || !pet) {
+      toast.error("Informações obrigatórias ausentes");
+      return;
+    }
+
+    // Verifica se o usuário possui este animal de estimação
+    if (pet.ownerId !== currentUser._id) {
+      toast.error("Você só pode editar seus próprios pets.");
       return;
     }
 
@@ -109,8 +142,8 @@ export default function AddPetPage() {
     setIsSubmitting(true);
 
     try {
-      await createPet({
-        ownerId: currentUser._id,
+      await updatePet({
+        id: pet._id,
         name: petData.name,
         type: petData.type,
         breed: petData.breed,
@@ -129,39 +162,80 @@ export default function AddPetPage() {
           ? parseFloat(petData.adoptionFee)
           : undefined,
         location: petData.location,
+        isAvailable: petData.isAvailable,
       });
 
-      toast.success("Animal de estimação adicionado com sucesso!");
-      router.push("/dashboard/profile");
+      toast.success("Pet atualizado.");
+      router.push(`/dashboard/pets/${pet._id}`);
     } catch (error) {
-      console.error("Erro ao adicionar o pet.", error);
-      toast.error(
-        "Não foi possível adicionar o animal de estimação. Tente novamente.",
-      );
+      console.error("Erro ao atualizar pet", error);
+      toast.error("Falha ao atualizar o pet. Tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (!currentUser) return <LoadingSpinner />;
+  const handleDelete = async () => {
+    if (!pet || !currentUser) return;
+
+    if (pet.ownerId !== currentUser.id) {
+      toast.error("Você só pode excluir seus próprios pets.");
+      return;
+    }
+
+    if (
+      !confirm(
+        "Tem certeza de que deseja excluir este pet? Esta ação não pode ser desfeita.",
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await deletePet({ id: pet._id });
+      toast.success("Pet deletado.");
+      router.push("/dashboard/profile");
+    } catch (error) {
+      console.error("Erro ao deletar pet.", error);
+      toast.error("Falha ao deletar o pet. Tente novamente.");
+    }
+  };
+
+  if (!currentUser || !pet) return <LoadingSpinner />;
+
+  if (pet.ownerId !== currentUser._id) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Card className="max-w-md">
+          <CardContent className="p-8 text-center">
+            <h2 className="mb-2 text-xl font-semibold">Acesso negado.</h2>
+            <p className="mb-4">Você só pode editar seus próprios pets.</p>
+
+            <Link href="/dashboard/profile">
+              <Button>Ir para o perfil</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      {/* Header */}
+    <div className="mx-auto max-w-4xl p-4 sm:p-6">
       <div className="mb-8">
-        <Link href="/dashboard/profile">
+        <Link href={`/dashboard/pets/${pet._id}`}>
           <Button variant="ghost" className="mb-4">
             <ArrowLeft className="mr-2 size-4" />
-            Voltar ao perfil
+            Voltar ao perfil de {pet.name}
           </Button>
         </Link>
 
         <div className="text-center">
           <PawPrint className="mx-auto mb-4 size-12 text-orange-500" />
           <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Adicionar pet
+            Atualizar informações de {pet.name}
           </h1>
-          <p>Ajude um bichinho a encontrar um lar definitivo!</p>
+          <p>Atualize as informações sobre seu pet</p>
         </div>
       </div>
 
@@ -426,7 +500,7 @@ export default function AddPetPage() {
               </div>
             </div>
 
-            {/* Informaçõs opcionais */}
+            {/* informações opcionais */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <Label htmlFor="adoptionFee">Taxa de adoção (opcional)</Label>
@@ -469,12 +543,12 @@ export default function AddPetPage() {
                 {isSubmitting ? (
                   <>
                     <div className="mr-2 size-4 animate-spin rounded-full border-b-2 border-white"></div>
-                    Adicionando pet...
+                    Atualizando pet...
                   </>
                 ) : (
                   <>
                     <Save className="mr-2 size-4" />
-                    Adicionar pet
+                    Atualizar pet
                   </>
                 )}
               </Button>
