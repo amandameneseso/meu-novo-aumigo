@@ -38,19 +38,19 @@ export default function PetCard({ pet, currentUserId }) {
     }
 
     switch (application.status) {
-      case "Pendente":
+      case "pendente":
         return {
-          text: "Pendente",
+          text: "Em progresso",
           variant: "secondary",
           disabled: true,
         };
-      case "Aceita":
+      case "aceita":
         return {
           text: "Aceita",
           variant: "default",
           href: `/dashboard/messages?application=${application._id}`,
         };
-      case "Rejeitada":
+      case "rejeitada":
         return {
           text: "Rejeitada",
           variant: "destructive",
