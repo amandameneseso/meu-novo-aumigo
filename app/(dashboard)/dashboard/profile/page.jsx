@@ -58,11 +58,11 @@ export default function ProfilePage() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "Pendente":
+      case "pendente":
         return <Clock className="size-4 text-yellow-500" />;
-      case "Aceita":
+      case "aceita":
         return <Check className="size-4 text-green-500" />;
-      case "Rejeitada":
+      case "rejeitada":
         return <X className="size-4 text-red-500" />;
       default:
         return <Clock className="size-4 text-gray-500" />;
@@ -72,11 +72,11 @@ export default function ProfilePage() {
   // botões
   const getStatusColor = (status) => {
     switch (status) {
-      case "Pendente":
+      case "pendente":
         return "bg-yellow-100 text-yellow-800";
-      case "Aceita":
+      case "aceita":
         return "bg-green-100 text-green-800";
-      case "Rejeitada":
+      case "rejeitada":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
