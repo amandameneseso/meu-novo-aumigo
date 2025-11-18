@@ -94,13 +94,13 @@ export default function Pet() {
     }
 
     switch (status) {
-      case "pending":
+      case "pendente":
         return (
           <Button className="w-full" variant="secondary" disabled>
             Solicitação em progresso
           </Button>
         );
-      case "accepted":
+      case "aceita":
         return (
           <Link href={`/dashboard/messages?application=${application._id}`}>
             <Button className="w-full bg-green-500 hover:bg-green-600">
@@ -108,7 +108,7 @@ export default function Pet() {
             </Button>
           </Link>
         );
-      case "rejected":
+      case "rejeitada":
         return (
           <Button className="w-full" variant="destructive" disabled>
             Solicitação Rejeitada
@@ -254,7 +254,7 @@ export default function Pet() {
 
                 <CardContent>
                   <div className="flex items-center space-x-2">
-                    {application.status === "pending" && (
+                    {application.status === "pendente" && (
                       <>
                         <div className="size-3 animate-pulse rounded-full bg-yellow-500"></div>
                         <span className="text-yellow-700">
@@ -263,14 +263,14 @@ export default function Pet() {
                       </>
                     )}
 
-                    {application.status === "accepted" && (
+                    {application.status === "aceita" && (
                       <>
                         <Check className="size-4 text-green-500" />
                         <span className="text-green-700">Aceita</span>
                       </>
                     )}
 
-                    {application.status === "rejected" && (
+                    {application.status === "rejeitada" && (
                       <>
                         <X className="size-4 text-red-500" />
                         <span className="text-red-700">Rejeitada</span>
@@ -433,13 +433,13 @@ export default function Pet() {
             )}
 
             {/* taxa de adoção */}
-            {pet.adoptionFee && (
+            {pet.adoptionFee !== undefined && pet.adoptionFee !== null && (
               <>
                 <Separator />
                 <div>
                   <h3 className="mb-3 font-semibold">Taxa de adoção</h3>
                   <p className="text-2xl font-bold text-orange-500">
-                    R$ {pet.adoptionFee}
+                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pet.adoptionFee)}
                   </p>
                 </div>
               </>
