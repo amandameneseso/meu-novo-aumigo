@@ -171,7 +171,7 @@ export default function Pet() {
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
-                      className={`size-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 ${selectedImageIndex === index ? "border-orange-500" : "border-gray-200"} `}
+                      className={`size-16 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 ${selectedImageIndex === index ? "border-orange-500" : "border-gray-200"} `}
                     >
                       <Image
                         src={image}
@@ -444,7 +444,7 @@ export default function Pet() {
                 </div>
               </>
             )}
-            <div className="flex w-[100%] items-center justify-center">
+            <div className="flex w-full items-center justify-center">
               {getActionButton()}
             </div>
           </CardContent>
