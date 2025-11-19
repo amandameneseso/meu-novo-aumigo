@@ -105,7 +105,7 @@ export default function DiscoverPage() {
             {activeFiltersCount > 0 && (
               <Button variant="outline" size="sm" onClick={clearFilters}>
                 <X className="mr-2 size-4" />
-                Limpar tudo
+                Limpar filtros
               </Button>
             )}
           </CardTitle>
