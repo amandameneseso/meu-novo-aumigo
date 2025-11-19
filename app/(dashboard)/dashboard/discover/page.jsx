@@ -83,7 +83,10 @@ export default function DiscoverPage() {
     <div className="p-6">
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold">Encontrar pets</h1>
-        <p>Encontre o companheiro perfeito entre todos os animais de estimação disponíveis.</p>
+        <p>
+          Encontre o companheiro perfeito entre todos os animais de estimação
+          disponíveis.
+        </p>
       </div>
 
       {/* busca e filtros */}
@@ -95,7 +98,7 @@ export default function DiscoverPage() {
               <span>Pesquisar e filtrar</span>
 
               {activeFiltersCount > 0 && (
-                <Badge variant="secondary">{activeFiltersCount} active</Badge>
+                <Badge variant="secondary">{activeFiltersCount} ativo(s)</Badge>
               )}
             </div>
 
@@ -122,7 +125,7 @@ export default function DiscoverPage() {
           </div>
 
           {/* grid de filtros */}
-          <div className="grid-cols-1 grid gap-4 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
                 Tipo
@@ -132,85 +135,87 @@ export default function DiscoverPage() {
                 onValueChange={(value) => handleFilterChange("type", value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All types" />
+                  <SelectValue placeholder="Todos" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">All types</SelectItem>
-                  <SelectItem value="dog">Dog</SelectItem>
-                  <SelectItem value="cat">Cat</SelectItem>
-                  <SelectItem value="bird">Bird</SelectItem>
-                  <SelectItem value="rabbit">Rabbit</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="cachorro">Cachorro</SelectItem>
+                  <SelectItem value="gato">Gato</SelectItem>
+                  <SelectItem value="aves">Aves</SelectItem>
+                  <SelectItem value="coelho">Coelho</SelectItem>
+                  <SelectItem value="outros">Outros</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Size
+                Tamanho
               </Label>
               <Select
                 value={filters.size}
                 onValueChange={(value) => handleFilterChange("size", value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All sizes" />
+                  <SelectValue placeholder="Todos" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">All sizes</SelectItem>
-                  <SelectItem value="small">Small</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="large">Large</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="Pequeno">Pequeno</SelectItem>
+                  <SelectItem value="Médio">Médio</SelectItem>
+                  <SelectItem value="Grande">Grande</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Age
+                Idade
               </Label>
               <Select
                 value={filters.age}
                 onValueChange={(value) => handleFilterChange("age", value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All ages" />
+                  <SelectValue placeholder="Todos" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">All ages</SelectItem>
-                  <SelectItem value="young">Young (0-2 years)</SelectItem>
-                  <SelectItem value="adult">Adult (3-7 years)</SelectItem>
-                  <SelectItem value="senior">Senior (8+ years)</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="filhote">Filhote (0-2 anos)</SelectItem>
+                  <SelectItem value="jovem">Jovem (3-7 anos)</SelectItem>
+                  <SelectItem value="adulto">
+                    Adulto (8 anos ou mais)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Gender
+                Gênero
               </Label>
               <Select
                 value={filters.gender}
                 onValueChange={(value) => handleFilterChange("gender", value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All genders" />
+                  <SelectValue placeholder="Todos" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">All genders</SelectItem>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="Macho">Macho</SelectItem>
+                  <SelectItem value="Fêmea">Fêmea</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Activity Level
+                Nível de atividade
               </Label>
               <Select
                 value={filters.activityLevel}
@@ -219,21 +224,27 @@ export default function DiscoverPage() {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All levels" />
+                  <SelectValue placeholder="Todos" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">All levels</SelectItem>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="Baixo">
+                    Baixo (animais calmos e relaxados)
+                  </SelectItem>
+                  <SelectItem value="Médio">
+                    Médio (animais moderadamente ativos)
+                  </SelectItem>
+                  <SelectItem value="Alto">
+                    Alto (animais de estimação muito ativos e enérgicos)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Good with kids
+                Sociável com crianças
               </Label>
               <Select
                 value={filters.goodWithKids}
@@ -242,20 +253,20 @@ export default function DiscoverPage() {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Any" />
+                  <SelectValue placeholder="Sem preferência" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">Any</SelectItem>
-                  <SelectItem value="true">Yes</SelectItem>
-                  <SelectItem value="false">No</SelectItem>
+                  <SelectItem value="all">Sem preferência</SelectItem>
+                  <SelectItem value="true">Sim</SelectItem>
+                  <SelectItem value="false">Não</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Good with pets
+                Sociável com animais
               </Label>
               <Select
                 value={filters.goodWithPets}
@@ -264,23 +275,67 @@ export default function DiscoverPage() {
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Any" />
+                  <SelectValue placeholder="Sem preferência" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">Any</SelectItem>
-                  <SelectItem value="true">Yes</SelectItem>
-                  <SelectItem value="false">No</SelectItem>
+                  <SelectItem value="all">Sem preferência</SelectItem>
+                  <SelectItem value="true">Sim</SelectItem>
+                  <SelectItem value="false">Não</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Location
+                Adestrado
+              </Label>
+              <Select
+                value={filters.isHouseTrained}
+                onValueChange={(value) =>
+                  handleFilterChange("isHouseTrained", value)
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Sem preferência" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectItem value="all">Sem preferência</SelectItem>
+                  <SelectItem value="true">Sim</SelectItem>
+                  <SelectItem value="false">Não</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="mb-2 block text-sm font-medium text-gray-700">
+                Castrado
+              </Label>
+              <Select
+                value={filters.isCastrado}
+                onValueChange={(value) =>
+                  handleFilterChange("isCastrado", value)
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Sem preferência" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectItem value="all">Sem preferência</SelectItem>
+                  <SelectItem value="true">Sim</SelectItem>
+                  <SelectItem value="false">Não</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="mb-2 block text-sm font-medium text-gray-700">
+                Localização
               </Label>
               <Input
-                placeholder="Enter city or area"
+                placeholder="Digite a cidade"
                 value={filters.location}
                 onChange={(e) => handleFilterChange("location", e.target.value)}
               />
@@ -289,16 +344,16 @@ export default function DiscoverPage() {
         </CardContent>
       </Card>
 
-      {/* Results section */}
+      {/* seção de resultados */}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">
-            {pets.length} {pets.length === 1 ? "pet" : "pets"} found
+            {pets.length} {pets.length === 1 ? "pet encontrado" : "pets encontrados"}
           </h2>
         </div>
 
         {pets.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
             {pets.map((pet) => (
               <PetCard
                 key={pet._id}
@@ -312,13 +367,13 @@ export default function DiscoverPage() {
             <CardContent>
               <Search className="mx-auto mb-4 size-12 text-gray-400" />
               <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                No pets found
+                Nenhum pet encontrado
               </h3>
               <p className="mb-4">
-                Try adjusting your search criteria or filters to find more pets.
+                Tente ajustar seus critérios de busca ou filtros para encontrar mais animais de estimação.
               </p>
 
-              <Button onClick={clearFilters}>Clear Filters</Button>
+              <Button onClick={clearFilters}>Limpar filtros</Button>
             </CardContent>
           </Card>
         )}
