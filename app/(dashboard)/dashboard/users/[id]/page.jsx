@@ -171,7 +171,7 @@ export default function UserProfilePage() {
                     {isOwnProfile ? "Meus pets" : `Pets de ${profileUser.name}`}
                   </CardTitle>
 
-                  <CardDescription>
+                  <CardDescription className="mt-2">
                     {isOwnProfile
                       ? "Animais de estimação que você listou para adoção"
                       : "Animais disponíveis para adoção"}
