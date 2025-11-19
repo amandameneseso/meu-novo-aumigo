@@ -232,7 +232,7 @@ export default function ProfilePage() {
                         {new Date(application.createdAt).toLocaleDateString()}
                       </p>
 
-                      {application.status === "Aceita" && (
+                      {application.status === "aceita" && (
                         <Link
                           href={`/dashboard/messages?application=${application._id}`}
                         >
@@ -288,7 +288,7 @@ export default function ProfilePage() {
                           {new Date(application.createdAt).toLocaleDateString()}
                         </p>
 
-                        {application.status === "Aceita" && (
+                        {application.status === "aceita" && (
                           <Link
                             href={`/dashboard/applications/${application._id}`}
                           >
