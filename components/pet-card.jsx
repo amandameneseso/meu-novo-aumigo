@@ -29,6 +29,16 @@ export default function PetCard({ pet, currentUserId }) {
   );
 
   const getButtonContent = () => {
+    // Se o usuário for o dono do pet
+    if (pet.ownerId === currentUserId) {
+      return {
+        text: "Ver detalhes",
+        variant: "outline",
+        href: `/dashboard/pets/${pet._id}`,
+      };
+    }
+
+    // Se não for dono -> adotar pet
     if (!application) {
       return {
         text: "Quero adotar",
