@@ -178,7 +178,7 @@ export default function EditPetPage() {
   const handleDelete = async () => {
     if (!pet || !currentUser) return;
 
-    if (pet.ownerId !== currentUser.id) {
+    if (pet.ownerId !== currentUser._id) {
       toast.error("Você só pode excluir seus próprios pets.");
       return;
     }
@@ -535,7 +535,7 @@ export default function EditPetPage() {
             </div>
 
             {/* botão enviar */}
-            <div className="flex justify-end space-x-4">
+            {/* <div className="flex justify-end space-x-4">
               <Link href="/dashboard/profile">
                 <Button variant="outline">Cancelar</Button>
               </Link>
@@ -552,6 +552,37 @@ export default function EditPetPage() {
                   </>
                 )}
               </Button>
+            </div> */}
+            <div className="mt-6 flex justify-between">
+              {/* Botão deletar */}
+              <Button
+                type="button"
+                // variant="destructive"
+                onClick={handleDelete}
+              >
+                <X className="mr-2 size-4" />
+                Deletar pet
+              </Button>
+
+              {/* Botões salvar / cancelar */}
+              <div className="space-x-4">
+                <Link href="/dashboard/profile">
+                  <Button variant="outline">Cancelar</Button>
+                </Link>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <div className="mr-2 size-4 animate-spin rounded-full border-b-2 border-white"></div>
+                      Atualizando pet...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="mr-2 size-4" />
+                      Atualizar pet
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           </form>
         </CardContent>
