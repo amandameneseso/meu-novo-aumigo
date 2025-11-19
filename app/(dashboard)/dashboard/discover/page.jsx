@@ -121,11 +121,11 @@ export default function DiscoverPage() {
             />
           </div>
 
-          {/* Filter grid */}
-          <div className="grid-cola-1 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* grid de filtros */}
+          <div className="grid-cols-1 grid gap-4 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
             <div>
               <Label className="mb-2 block text-sm font-medium text-gray-700">
-                Pet type
+                Tipo
               </Label>
               <Select
                 value={filters.type}
