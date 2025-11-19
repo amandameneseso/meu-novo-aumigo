@@ -31,6 +31,115 @@ export const createPet = mutation({
   },
 });
 
+export const getAllPets = query({
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("pets")
+      .withIndex("by_availability", (q) => q.eq("isAvailable", true))
+      .collect();
+  },
+});
+
+export const getFilteredPets = query({
+  args: {
+    searchTerm: v.string(),
+    filters: v.object({
+      type: v.string(),
+      breed: v.string(),
+      size: v.string(),
+      age: v.string(),
+      gender: v.string(),
+      activityLevel: v.string(),
+      goodWithKids: v.string(),
+      goodWithPets: v.string(),
+      isHouseTrained: v.string(),
+      isCastrado: v.string(),
+      location: v.string(),
+    }),
+  },
+  handler: async (ctx, args) => {
+    let pets = await ctx.db
+      .query("pets")
+      .withIndex("by_availability", (q) => q.eq("isAvailable", true))
+      .collect();
+
+    // Aplicar termo de pesquisa
+    if (args.searchTerm) {
+      const searchLower = args.searchTerm.toLowerCase();
+
+      pets = pets.filter(
+        (pet) =>
+          pet.name.toLowerCase().includes(searchLower) ||
+          pet.breed.toLowerCase().includes(searchLower) ||
+          pet.description.toLowerCase().includes(searchLower) ||
+          pet.type.toLowerCase().includes(searchLower),
+      );
+    }
+
+    // Aplicar filtros
+    const { filters } = args;
+
+    if (filters.type) {
+      pets = pets.filter((pet) => pet.type === filters.type);
+    }
+
+    if (filters.size) {
+      pets = pets.filter((pet) => pet.size === filters.size);
+    }
+
+    if (filters.gender) {
+      pets = pets.filter((pet) => pet.gender === filters.gender);
+    }
+
+    if (filters.activityLevel) {
+      pets = pets.filter((pet) => pet.activityLevel === filters.activityLevel);
+    }
+
+    if (filters.goodWithKids) {
+      const value = filters.goodWithKids === "true";
+      pets = pets.filter((pet) => pet.goodWithKids === value);
+    }
+
+    if (filters.goodWithPets) {
+      const value = filters.goodWithPets === "true";
+      pets = pets.filter((pet) => pet.goodWithPets === value);
+    }
+
+    if (filters.isHouseTrained) {
+      const value = filters.isHouseTrained === "true";
+      pets = pets.filter((pet) => pet.isHouseTrained === value);
+    }
+
+    if (filters.isCastrado) {
+      const value = filters.isCastrado === "true";
+      pets = pets.filter((pet) => pet.isCastrado === value);
+    }
+
+    if (filters.location) {
+      pets = pets.filter((pet) =>
+        pet.location.toLowerCase().includes(filters.location.toLowerCase()),
+      );
+    }
+
+    if (filters.age) {
+      pets = pets.filter((pet) => {
+        switch (filters.age) {
+          case "filhote":
+            return pet.age <= 2;
+          case "jovem":
+            return pet.age >= 3 && pet.age <= 7;
+          case "adulto":
+            return pet.age >= 8;
+          default:
+            return true;
+        }
+      });
+    }
+
+    return pets;
+  },
+});
+
 export const getRecommendedPets = query({
   args: {
     userId: v.id("users"),
