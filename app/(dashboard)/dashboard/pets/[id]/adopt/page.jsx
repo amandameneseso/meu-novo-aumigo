@@ -139,7 +139,7 @@ export default function AdoptPage() {
           <h1 className="mb-2 text-3xl font-bold text-gray-900">
             Adotar {pet.name}
           </h1>
-          <p className="w-[65%] mx-auto">Preencha este formulário para iniciar o processo de adoção. O dono do pet será notificado e receberá a solicitação.</p>
+          <p className="w-[85%] mx-auto">Caso você tenha interesse em adotar este animalzinho, preencha os dados abaixo e clique em Enviar para iniciar o processo de adoção. O dono do pet será notificado e receberá a solicitação.</p>
         </div>
       </div>
 

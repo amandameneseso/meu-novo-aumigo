@@ -24,7 +24,14 @@ export const createApplication = mutation({
       updatedAt: Date.now(),
     });
   },
-}); 
+});
+
+export const getApplicationById = query({
+  args: { id: v.id("adoptionApplications") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
 
 export const getApplicationsByApplicant = query({
   args: { applicantId: v.id("users") },
@@ -43,6 +50,19 @@ export const getApplicationsByOwner = query({
       .query("adoptionApplications")
       .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
       .collect();
+  },
+});
+
+export const updateApplicationStatus = mutation({
+  args: {
+    id: v.id("adoptionApplications"),
+    status: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.patch(args.id, {
+      status: args.status,
+      updatedAt: Date.now(),
+    });
   },
 });
 
