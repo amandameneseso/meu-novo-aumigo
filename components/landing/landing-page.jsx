@@ -105,9 +105,12 @@ export default function LandingPage() {
 
             {/* CTA Button */}
             <div className="hidden md:flex items-center">
-              <a href="#donate" className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2.5 rounded-[8px] font-medium transition-all shadow-custom hover:shadow-custom-hover transform hover:-translate-y-0.5">
-                Doar Agora
-              </a>
+              <Link href="/sign-in" className=" text-neutral-600 px-6 py-2.5 rounded-[8px] font-medium transition-all  transform">
+                Entrar
+              </Link>
+              <Link href="/sign-up" className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2.5 rounded-[8px] font-medium transition-all shadow-custom hover:shadow-custom-hover transform hover:-translate-y-0.5">
+                Cadastre-se
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -124,11 +127,6 @@ export default function LandingPage() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          {/* <img 
-            src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2086&q=80" 
-            alt="Cachorro feliz correndo no campo" 
-            className="w-full h-full object-cover"
-          /> */}
           <Image 
             src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2086&q=80" 
             alt="Hero" 
@@ -141,23 +139,28 @@ export default function LandingPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white mt-10">
           <span className="inline-block py-1 px-3 rounded-pill bg-white/20 backdrop-blur-md border border-white/30 text-sm font-medium mb-6 animate-fade-in-up">
-            Mais de 5.000 Caudas Felizes & Contando
+            Mais de 5.000 pets felizes e contando
           </span>
           <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up delay-100">
-            Dê a Uma Vida uma <br className="hidden md:block" /> <span className="text-primary-300">Segunda Chance</span>
+            Dê a uma vida uma <br className="hidden md:block" /> <span className="text-primary-300">segunda chance</span>
           </h1>
           <p className="text-lg md:text-xl text-neutral-100 max-w-2xl mx-auto mb-10 font-light animate-fade-in-up delay-200">
-            Todo animal merece um lar amoroso. Junte-se à nossa comunidade de corações compassivos e encontre seu companheiro perfeito hoje.
+            Estamos muito felizes por ter você aqui! Seu apoio é essencial para continuarmos encontrando lares cheios de cuidado para esses peludinhos. Adotar é um ato de amor que transforma todas as vidas ao redor.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-300">
             <Link href="/sign-in">
               <Button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-[8px] font-semibold text-lg transition-all shadow-custom hover:shadow-custom-hover transform hover:-translate-y-1 w-full sm:w-auto h-auto">
-                Adotar Agora
+                Quero adotar
               </Button>
             </Link>
-            <a href="#donate" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-[8px] font-semibold text-lg transition-all hover:shadow-lg w-full sm:w-auto inline-flex items-center justify-center">
-              Doar Hoje
-            </a>
+            {/* <Link href="/sign-up">
+              <Button className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-[8px] font-semibold text-lg transition-all hover:shadow-lg w-full sm:w-auto inline-flex items-center justify-center">
+                Quero doar um pet
+              </Button>
+            </Link> */}
+            <Link href="/sign-up" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-[8px] font-semibold text-lg transition-all hover:shadow-lg w-full sm:w-auto inline-flex items-center justify-center">
+              Quero doar um pet
+            </Link>
           </div>
         </div>
 
@@ -191,27 +194,29 @@ export default function LandingPage() {
       <section id="animals" className="py-20 md:py-24 bg-background-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-heading text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Conheça Nossos Amigos</h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto text-lg">Essas almas amorosas estão esperando por um lar para sempre. Você poderia ser o par perfeito?</p>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Pequenas patinhas, grandes histórias</h2>
+            <p className="text-neutral-600 max-w-2xl mx-auto text-lg">Essas almas amorosas estão esperando por um lar.</p>
           </div>
 
           {/* Mobile: Horizontal Scroll / Desktop: Grid */}
           <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 pb-8 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar snap-x snap-mandatory">
             {featuredAnimals.map((animal) => (
-              <div key={animal.name} className="min-w-[280px] md:min-w-0 bg-white rounded-[12px] shadow-soft hover:shadow-custom-hover transition-all duration-300 transform hover:-translate-y-2 overflow-hidden snap-center group cursor-pointer">
+              <div key={animal.name} className="min-w-70 md:min-w-0 bg-white rounded-large shadow-soft hover:shadow-custom-hover transition-all duration-300 transform hover:-translate-y-2 overflow-hidden snap-center group cursor-pointer">
                 <div className="relative h-64 overflow-hidden">
-                  <img 
+                  <Image 
                     src={animal.image} 
                     alt={animal.name} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   {animal.urgent && (
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-[999px] text-xs font-bold text-primary-600 uppercase tracking-wide shadow-sm">
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-pill text-xs font-bold text-primary-600 uppercase tracking-wide shadow-sm">
                       Urgente
                     </div>
                   )}
                   {animal.isNew && (
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-[999px] text-xs font-bold text-secondary-600 uppercase tracking-wide shadow-sm">
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-pill text-xs font-bold text-secondary-600 uppercase tracking-wide shadow-sm">
                       Novo
                     </div>
                   )}
@@ -289,7 +294,7 @@ export default function LandingPage() {
             <p className="text-xl text-neutral-300 font-light italic mb-8">&quot;Por causa de doadores como você, fui resgatado das ruas, curado das minhas feridas e encontrei uma família que me ama.&quot; — Barnaby, resgatado em 2023</p>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-md rounded-[12px] p-8 border border-white/10 shadow-2xl">
+          <div className="bg-white/5 backdrop-blur-md rounded-large p-8 border border-white/10 shadow-2xl">
             <p className="text-neutral-300 mb-6 font-medium">Escolha um valor para doar</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -335,11 +340,18 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.name} className="bg-white p-8 rounded-[12px] shadow-soft border border-neutral-100">
+              <div key={testimonial.name} className="bg-white p-8 rounded-large shadow-soft border border-neutral-100">
                 <div className="flex items-center gap-4 mb-6">
-                  <img 
+                  {/* <img 
                     src={testimonial.image} 
                     alt={testimonial.name} 
+                    className="w-14 h-14 rounded-full object-cover"
+                  /> */}
+                  <Image 
+                    src={testimonial.image} 
+                    alt={testimonial.name} 
+                    width={56} 
+                    height={56}
                     className="w-14 h-14 rounded-full object-cover"
                   />
                   <div>
@@ -360,7 +372,7 @@ export default function LandingPage() {
       </section>
 
       {/* Newsletter / Volunteer CTA */}
-      <section id="volunteer" className="py-20 bg-gradient-to-br from-primary-100 to-secondary-100">
+      <section id="volunteer" className="py-20 bg-linear-to-br from-primary-100 to-secondary-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">Junte-se à Nossa Comunidade de Heróis</h2>
           <p className="text-neutral-700 text-lg mb-10 max-w-2xl mx-auto">Seja voluntariando seu tempo, sendo lar temporário de um animal necessitado, ou se mantendo atualizado com nossa newsletter, você faz a diferença.</p>
@@ -427,15 +439,15 @@ export default function LandingPage() {
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Contato</h4>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
+                  <MapPin className="w-4 h-4 mt-1 shrink-0" />
                   <span>Rua dos Animais, 123<br />São Paulo, SP 01234-567</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 flex-shrink-0" />
+                  <Phone className="w-4 h-4 shrink-0" />
                   <span>(11) 1234-5678</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  <Mail className="w-4 h-4 shrink-0" />
                   <span>contato@focinhoscarentes.org</span>
                 </li>
               </ul>
