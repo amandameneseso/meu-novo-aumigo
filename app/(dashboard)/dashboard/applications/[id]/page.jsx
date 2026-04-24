@@ -345,7 +345,7 @@ export default function ApplicationDetailsPage() {
                     disabled={isUpdating}
                     className="w-full"
                   >
-                    <Check className="mr-2 size-4" />
+                    <X className="mr-2 size-4" />
                     Rejeitar
                   </Button>
                 </div>

@@ -115,7 +115,7 @@ export default function DiscoverPage() {
           {/* barra de pesquisa */}
 
           <div className="relative">
-            <Search className="absolute top-1/2 left-3 size-4 !-translate-y-1/2 transform text-gray-400" />
+            <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 transform text-gray-400" />
             <Input
               placeholder="Pesquise por nome, raça ou descrição..."
               value={searchTerm}
