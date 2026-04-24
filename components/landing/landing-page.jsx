@@ -22,6 +22,7 @@ import {
   Heart,
 } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 const featuredAnimals = [
   {
@@ -87,7 +88,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
-            <div className="flex-shrink-0 flex items-center gap-2">
+            <div className="shrink-0 flex items-center gap-2">
               <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white">
                 <PawPrint className="w-6 h-6" />
               </div>
@@ -123,16 +124,23 @@ export default function LandingPage() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          <img 
+          {/* <img 
             src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2086&q=80" 
             alt="Cachorro feliz correndo no campo" 
             className="w-full h-full object-cover"
+          /> */}
+          <Image 
+            src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2086&q=80" 
+            alt="Hero" 
+            fill 
+            priority 
+            className="object-cover" 
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-neutral-900/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-neutral-900/80 via-neutral-900/40 to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white mt-10">
-          <span className="inline-block py-1 px-3 rounded-[999px] bg-white/20 backdrop-blur-md border border-white/30 text-sm font-medium mb-6 animate-fade-in-up">
+          <span className="inline-block py-1 px-3 rounded-pill bg-white/20 backdrop-blur-md border border-white/30 text-sm font-medium mb-6 animate-fade-in-up">
             Mais de 5.000 Caudas Felizes & Contando
           </span>
           <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up delay-100">
