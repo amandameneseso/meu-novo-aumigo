@@ -84,8 +84,7 @@ export default function DiscoverPage() {
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold">Encontrar pets</h1>
         <p>
-          Encontre o companheiro perfeito entre todos os animais de estimação
-          disponíveis.
+          Procurando um novo aumigo? Ele também está procurando por você.
         </p>
       </div>
 
