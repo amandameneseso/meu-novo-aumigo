@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { PawPrint, MapPin, Calendar, Weight, User } from "lucide-react";
+import { PawPrint, MapPin, Calendar, Weight, User, Heart, ArrowRight } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
@@ -13,6 +11,7 @@ import Image from "next/image";
 
 export default function PetCard({ pet, currentUserId }) {
   const [imageError, setImageError] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const owner = useQuery(
     api.users.getUserById,
@@ -29,7 +28,7 @@ export default function PetCard({ pet, currentUserId }) {
   );
 
   const getButtonContent = () => {
-    // Se o usuário for o dono do pet
+    // Se o usuario for o dono do pet
     if (pet.ownerId === currentUserId) {
       return {
         text: "Ver detalhes",
@@ -38,10 +37,10 @@ export default function PetCard({ pet, currentUserId }) {
       };
     }
 
-    // Se não for dono -> adotar pet
+    // Se nao for dono -> adotar pet
     if (!application) {
       return {
-        text: "Quero adotar",
+        text: `Conhecer ${pet.name}`,
         variant: "default",
         href: `/dashboard/pets/${pet._id}`,
       };
@@ -68,7 +67,7 @@ export default function PetCard({ pet, currentUserId }) {
         };
       default:
         return {
-          text: "Quero adotar",
+          text: `Conhecer ${pet.name}`,
           variant: "default",
           href: `/dashboard/pets/${pet._id}`,
         };
@@ -77,95 +76,141 @@ export default function PetCard({ pet, currentUserId }) {
 
   const buttonProps = getButtonContent();
 
-  return (
-    <Card className="overflow-hidden p-0 transition-shadow duration-300 hover:shadow-lg">
-      <div className="relative">
-        <div className="relative aspect-square bg-gray-100">
-          {pet.images && pet.images.length > 0 && !imageError ? (
-            <Image
-              src={pet.images[0]}
-              alt={pet.name}
-              fill
-              className="object-cover"
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div className="flex size-full items-center justify-center">
-              <PawPrint className="size-16 text-gray-300" />
-            </div>
-          )}
+  // Determine badge style based on status
+  const getBadgeStyle = () => {
+    if (!pet.isAvailable) {
+      return "bg-neutral-100 text-neutral-600";
+    }
+    return "bg-secondary-100 text-secondary-700";
+  };
 
-          <div className="absolute top-3 right-3">
-            <Badge variant={pet.isAvailable ? "default" : "secondary"}>
-              {pet.isAvailable ? "Disponível" : "Indisponível"}
-            </Badge>
+  return (
+    <div className="group cursor-pointer overflow-hidden rounded-[var(--radius-large)] border border-neutral-100 bg-white shadow-[0_4px_24px_-4px_rgba(30,30,30,0.08)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_32px_-4px_rgba(30,30,30,0.18)]">
+      {/* Image Section */}
+      <div className="relative h-56 overflow-hidden">
+        {pet.images && pet.images.length > 0 && !imageError ? (
+          <Image
+            src={pet.images[0]}
+            alt={pet.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-neutral-100">
+            <PawPrint className="h-16 w-16 text-neutral-300" />
           </div>
+        )}
+
+        {/* Status Badge */}
+        <div className="absolute left-3 top-3 flex gap-2">
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wider ${getBadgeStyle()}`}>
+            {pet.isAvailable ? "Disponivel" : "Indisponivel"}
+          </span>
         </div>
+
+        {/* Favorite Button */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsFavorited(!isFavorited);
+          }}
+          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-colors hover:text-primary-500"
+        >
+          <Heart
+            className={`h-4 w-4 ${isFavorited ? "fill-primary-500 text-primary-500" : "text-neutral-400"}`}
+          />
+        </button>
       </div>
 
-      <CardContent>
-        <div className="space-y-3">
-          {/* informações */}
-          <div>
-            <h3 className="mt-[-10px] text-lg font-semibold">{pet.name}</h3>
-            <p className="text-sm capitalize">
-              {pet.breed} &middot; {pet.type}
-            </p>
-          </div>
-
-          {/* Stats */}
-          <div className="flex items-center space-x-4 text-sm text-gray-600">
-            <div className="flex items-center space-x-1">
-              <Calendar className="size-4" />
-              <span>
-                {pet.age} {pet.age === 1 ? "ano" : "anos"}
-              </span>
-            </div>
-
-            <div className="flex items-center space-x-1">
-              <Weight className="size-4" />
-              <span className="capitalize">{pet.size}</span>
-            </div>
-          </div>
-
-          {/* localização */}
-          <div className="flex items-center space-x-1 text-sm text-gray-600">
-            <MapPin className="size-4" />
-            <span className="capitalize">{pet.location}</span>
-          </div>
-
-          {/* informações do dono */}
-          {owner && (
-            <div className="flex items-center space-x-2">
-              <Avatar className="size-6">
-                <AvatarImage src={owner.profileImage} />
-                <AvatarFallback>
-                  <User className="size-3" />
-                </AvatarFallback>
-              </Avatar>
-              <span className="text-sm text-gray-600">{owner.name}</span>
-            </div>
-          )}
-
-          {/* descrição */}
-          <p className="line-clamp-3 text-sm">{pet.description}</p>
-
-          {/* botões */}
-          <div className="pt-2 pb-4">
-            {buttonProps.disabled ? (
-              <Button className="w-full" variant={buttonProps.variant} disabled>
-                {buttonProps.text}
-              </Button>
-            ) : (
-              <Link href={buttonProps.href} className="block">
-                <Button className="w-full" variant={buttonProps.variant}>
-                  {buttonProps.text}
-                </Button>
-              </Link>
-            )}
-          </div>
+      {/* Content Section */}
+      <div className="p-5">
+        {/* Name and Age */}
+        <div className="mb-1 flex items-start justify-between">
+          <h3 className="font-heading text-xl font-bold text-neutral-900">{pet.name}</h3>
+          <span className="rounded-[var(--radius-small)] bg-neutral-100 px-2 py-1 text-xs font-semibold text-neutral-400">
+            {pet.age} {pet.age === 1 ? "ano" : "anos"}
+          </span>
         </div>
-      </CardContent>
-    </Card>
+
+        {/* Breed, Type, Size */}
+        <p className="mb-3 text-sm capitalize text-neutral-500">
+          {pet.breed} &middot; {pet.gender} &middot; {pet.size}
+        </p>
+
+        {/* Tags */}
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          {pet.goodWithKids && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-secondary-50 px-2.5 py-0.5 text-[0.7rem] font-semibold text-secondary-700">
+              Bom com criancas
+            </span>
+          )}
+          {pet.goodWithPets && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-secondary-50 px-2.5 py-0.5 text-[0.7rem] font-semibold text-secondary-700">
+              Bom com pets
+            </span>
+          )}
+          {pet.isCastrado && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-primary-50 px-2.5 py-0.5 text-[0.7rem] font-semibold text-primary-700">
+              Castrado
+            </span>
+          )}
+          {pet.isHouseTrained && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-secondary-50 px-2.5 py-0.5 text-[0.7rem] font-semibold text-secondary-700">
+              Adestrado
+            </span>
+          )}
+        </div>
+
+        {/* Location */}
+        <div className="mb-3 flex items-center gap-1 text-sm text-neutral-500">
+          <MapPin className="h-4 w-4" />
+          <span className="capitalize">{pet.location}</span>
+        </div>
+
+        {/* Owner Info */}
+        {owner && (
+          <div className="mb-3 flex items-center gap-2">
+            <Avatar className="h-6 w-6">
+              <AvatarImage src={owner.profileImage} />
+              <AvatarFallback className="bg-neutral-100">
+                <User className="h-3 w-3 text-neutral-400" />
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-sm text-neutral-600">{owner.name}</span>
+          </div>
+        )}
+
+        {/* Description */}
+        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-neutral-600">
+          {pet.description}
+        </p>
+
+        {/* Action Button */}
+        {buttonProps.disabled ? (
+          <button
+            disabled
+            className={`flex w-full items-center justify-center gap-2 rounded-[var(--radius-small)] py-2.5 text-sm font-semibold transition-all ${
+              buttonProps.variant === "secondary"
+                ? "bg-neutral-100 text-neutral-500"
+                : buttonProps.variant === "destructive"
+                ? "bg-red-100 text-red-600"
+                : "bg-primary-50 text-primary-700"
+            }`}
+          >
+            {buttonProps.text}
+          </button>
+        ) : (
+          <Link
+            href={buttonProps.href}
+            className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-small)] bg-primary-50 py-2.5 text-sm font-semibold text-primary-700 transition-all hover:bg-primary-500 hover:text-white"
+          >
+            {buttonProps.text}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        )}
+      </div>
+    </div>
   );
 }
