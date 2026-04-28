@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { PawPrint, MapPin, Calendar, Weight, User, Heart, ArrowRight } from "lucide-react";
+import { PawPrint, MapPin, Calendar, Weight, User, ArrowRight } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
@@ -108,20 +108,6 @@ export default function PetCard({ pet, currentUserId }) {
             {pet.isAvailable ? "Disponivel" : "Indisponivel"}
           </span>
         </div>
-
-        {/* Favorite Button */}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsFavorited(!isFavorited);
-          }}
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-colors hover:text-primary-500"
-        >
-          <Heart
-            className={`h-4 w-4 ${isFavorited ? "fill-primary-500 text-primary-500" : "text-neutral-400"}`}
-          />
-        </button>
       </div>
 
       {/* Content Section */}
