@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bell, PawPrint, MessageCircle, Check, Eye } from "lucide-react";
+import { Bell, PawPrint, Check, Eye } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/loading-spinner";
@@ -46,8 +46,6 @@ export default function NotificationsPage() {
         return <PawPrint className="size-5 text-orange-500" />;
       case "application_update":
         return <Check className="size-5 text-green-500" />;
-      case "message":
-        return <MessageCircle className="size-5 text-blue-500" />;
       default:
         return <Bell className="size-5 text-gray-500" />;
     }
@@ -68,16 +66,6 @@ export default function NotificationsPage() {
           <Link href={`/dashboard/applications`}>
             <Button size="sm" variant="outline">
               Ver solicitação
-            </Button>
-          </Link>
-        );
-      case "message":
-        return (
-          <Link
-            href={`/dashboard/messages?application=${notification.relatedId}`}
-          >
-            <Button size="sm" variant="outline">
-              Ver mensagem
             </Button>
           </Link>
         );

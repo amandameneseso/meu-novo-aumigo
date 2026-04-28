@@ -71,17 +71,6 @@ export default defineSchema({
     .index("by_applicant", ["applicantId"])
     .index("by_owner", ["ownerId"]),
 
-  messages: defineTable({
-    applicationId: v.id("adoptionApplications"),
-    senderId: v.id("users"),
-    receiverId: v.id("users"),
-    content: v.string(),
-    createdAt: v.number(),
-  })
-    .index("by_application", ["applicationId"])
-    .index("by_sender", ["senderId"])
-    .index("by_receiver", ["receiverId"]),
-
   notifications: defineTable({
     userId: v.id("users"),
     type: v.string(),

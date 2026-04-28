@@ -22,7 +22,6 @@ import {
   ArrowLeft,
   PawPrint,
   Calendar,
-  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import PetCard from "@/components/pet-card";

@@ -76,22 +76,6 @@ export default function DiscoverPage() {
   const activeFiltersCount =
     Object.values(filters).filter(Boolean).length + (searchTerm ? 1 : 0);
 
-  // Quick filter chips
-  const quickFilters = [
-    { label: "Todos", value: "", type: "type" },
-    { label: "Cachorros", value: "cachorro", type: "type" },
-    { label: "Gatos", value: "gato", type: "type" },
-    { label: "Aves", value: "aves", type: "type" },
-    { label: "Coelhos", value: "coelho", type: "type" },
-  ];
-
-  const [activeQuickFilter, setActiveQuickFilter] = useState("");
-
-  const handleQuickFilter = (value) => {
-    setActiveQuickFilter(value);
-    handleFilterChange("type", value || "all");
-  };
-
   if (!currentUser) {
     return <LoadingSpinner />;
   }
@@ -136,71 +120,6 @@ export default function DiscoverPage() {
                 Buscar
               </Button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Filter Chips */}
-      <section className="sticky top-16 z-40 border-b border-neutral-200 bg-white shadow-sm" style={{ maxHeight: "80px" }}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="no-scrollbar flex items-center gap-3 overflow-x-auto py-3">
-            <span className="mr-1 whitespace-nowrap text-xs font-semibold uppercase tracking-wider text-neutral-400">
-              Filtro:
-            </span>
-            {quickFilters.map((filter) => (
-              <button
-                key={filter.label}
-                onClick={() => handleQuickFilter(filter.value)}
-                className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                  activeQuickFilter === filter.value
-                    ? "border-primary-500 bg-primary-500 text-white"
-                    : "border-neutral-200 text-neutral-600 hover:border-primary-400"
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-            <div className="mx-1 h-5 w-px flex-shrink-0 bg-neutral-200" />
-            <button
-              onClick={() => handleFilterChange("age", filters.age === "filhote" ? "all" : "filhote")}
-              className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                filters.age === "filhote"
-                  ? "border-primary-500 bg-primary-500 text-white"
-                  : "border-neutral-200 text-neutral-600 hover:border-primary-400"
-              }`}
-            >
-              Filhotes
-            </button>
-            <button
-              onClick={() => handleFilterChange("age", filters.age === "adulto" ? "all" : "adulto")}
-              className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                filters.age === "adulto"
-                  ? "border-primary-500 bg-primary-500 text-white"
-                  : "border-neutral-200 text-neutral-600 hover:border-primary-400"
-              }`}
-            >
-              Adultos
-            </button>
-            <button
-              onClick={() => handleFilterChange("goodWithKids", filters.goodWithKids === "true" ? "all" : "true")}
-              className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                filters.goodWithKids === "true"
-                  ? "border-primary-500 bg-primary-500 text-white"
-                  : "border-neutral-200 text-neutral-600 hover:border-primary-400"
-              }`}
-            >
-              Bom com criancas
-            </button>
-            <button
-              onClick={() => handleFilterChange("goodWithPets", filters.goodWithPets === "true" ? "all" : "true")}
-              className={`whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                filters.goodWithPets === "true"
-                  ? "border-primary-500 bg-primary-500 text-white"
-                  : "border-neutral-200 text-neutral-600 hover:border-primary-400"
-              }`}
-            >
-              Bom com outros pets
-            </button>
           </div>
         </div>
       </section>

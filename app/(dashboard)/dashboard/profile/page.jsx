@@ -234,10 +234,10 @@ export default function ProfilePage() {
 
                       {application.status === "aceita" && (
                         <Link
-                          href={`/dashboard/messages?application=${application._id}`}
+                          href={`/dashboard/applications/${application._id}`}
                         >
                           <Button size="sm" variant="outline">
-                            Enviar mensagem
+                            Ver detalhes
                           </Button>
                         </Link>
                       )}

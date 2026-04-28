@@ -57,7 +57,7 @@ export default function PetCard({ pet, currentUserId }) {
         return {
           text: "Aceita",
           variant: "default",
-          href: `/dashboard/messages?application=${application._id}`,
+          href: `/dashboard/pets/${pet._id}`,
         };
       case "rejeitada":
         return {

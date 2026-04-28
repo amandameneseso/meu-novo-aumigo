@@ -102,9 +102,9 @@ export default function Pet() {
         );
       case "aceita":
         return (
-          <Link href={`/dashboard/messages?application=${application._id}`}>
+          <Link href={`/dashboard/applications/${application._id}`}>
             <Button className="w-full bg-green-500 hover:bg-green-600">
-              Enviar mensagem ao dono
+              Ver detalhes da solicitação
             </Button>
           </Link>
         );

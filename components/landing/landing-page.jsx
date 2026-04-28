@@ -456,10 +456,10 @@ export default function LandingPage() {
           
           <div className="border-t border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
             <p>&copy; 2024 Focinhos Carentes. Todos os direitos reservados.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            {/* <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
               <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
-            </div>
+            </div> */}
           </div>
         </div>
       </footer>

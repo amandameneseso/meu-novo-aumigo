@@ -16,6 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
@@ -27,7 +28,7 @@ import {
   Phone,
   MapPin,
   Calendar,
-  MessageCircle,
+  PawPrint,
 } from "lucide-react";
 import LoadingSpinner from "@/components/loading-spinner";
 
@@ -151,8 +152,19 @@ export default function ApplicationDetailsPage() {
 
             <CardContent>
               <div className="flex items-center space-x-4">
-                <div className="flex size-16 items-center justify-center rounded-lg bg-gray-100">
-                  <User className="size-8 text-gray-400" />
+                <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                  {pet.images && pet.images.length > 0 ? (
+                    <Image
+                      src={pet.images[0]}
+                      alt={pet.name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex size-full items-center justify-center">
+                      <PawPrint className="size-8 text-gray-400" />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -193,17 +205,6 @@ export default function ApplicationDetailsPage() {
               </div>
 
               <Separator />
-
-              {/* <div>
-                <h4 className="mb-2 font-medium text-gray-900">
-                  Work schedule
-                </h4>
-                <p className="text-gray-700">
-                  {application.applicationData.workSchedule}
-                </p>
-              </div>
-
-              <Separator /> */}
 
               <div>
                 <h4 className="mb-2 font-medium text-gray-900">Outros bichinhos na casa</h4>
@@ -352,14 +353,10 @@ export default function ApplicationDetailsPage() {
               )}
 
               {application.status === "aceita" && (
-                <Link
-                  href={`/dashboard/messages?application=${application._id}`}
-                >
-                  <Button className="w-full">
-                    <MessageCircle className="mr-2 size-4" />
-                    Enviar mensagem
-                  </Button>
-                </Link>
+                <div className="rounded-lg bg-green-50 p-4 border border-green-200">
+                  <p className="text-green-800 font-medium">Parabéns! Sua solicitação foi aceita.</p>
+                  <p className="text-green-700 text-sm mt-1">O protetor entrará em contato com você em breve.</p>
+                </div>
               )}
             </CardContent>
           </Card>
