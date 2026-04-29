@@ -155,13 +155,13 @@ export default function Pet() {
             {/* Gallery */}
             <div className="space-y-4">
               {/* Main Image */}
-              <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-large)] shadow-[var(--shadow-soft)] md:aspect-[16/10]">
+              <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-large)] md:aspect-[16/10]">
                 {pet.images && pet.images.length > 0 && !imageError ? (
                   <Image
                     src={pet.images[selectedImageIndex]}
                     alt={`${pet.name} - imagem principal`}
                     fill
-                    className="object-cover"
+                    className="h-auto w-full rounded-lg object-contain"
                     onError={() => setImageError(true)}
                     priority
                   />
@@ -170,19 +170,6 @@ export default function Pet() {
                     <PawPrint className="h-24 w-24 text-neutral-300" />
                   </div>
                 )}
-
-                {/* Badges */}
-                <div className="absolute left-4 top-4 flex gap-2">
-                  <span
-                    className={`rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wide shadow-sm ${
-                      pet.isAvailable
-                        ? "bg-secondary-500 text-white"
-                        : "bg-neutral-500 text-white"
-                    }`}
-                  >
-                    {pet.isAvailable ? "Disponivel" : "Indisponivel"}
-                  </span>
-                </div>
               </div>
 
               {/* Thumbnails */}
@@ -287,14 +274,6 @@ export default function Pet() {
                       Castrado
                     </li>
                   )}
-                  <li className="flex items-center gap-3 text-sm text-neutral-700">
-                    <Check className="h-4 w-4 text-secondary-500" />
-                    Vacinacao em dia
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-neutral-700">
-                    <Check className="h-4 w-4 text-secondary-500" />
-                    Vermifugado
-                  </li>
                 </ul>
               </div>
             </div>
@@ -310,13 +289,24 @@ export default function Pet() {
                     <h1 className="font-heading text-4xl font-bold capitalize text-neutral-900">
                       {pet.name}
                     </h1>
-                    <button className="p-1 text-neutral-400 transition-colors hover:text-red-500">
-                      <Heart className="h-7 w-7" />
-                    </button>
                   </div>
-                  <p className="mb-6 text-lg font-medium capitalize text-neutral-500">
-                    {pet.breed} &middot; {pet.gender}
+                  <p className="mb-2 text-lg font-medium capitalize text-neutral-500">
+                    {pet.type} &middot; {pet.breed} &middot; {pet.gender}
                   </p>
+                  <div className="mb-6 flex flex-wrap items-center gap-3">
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-sm ${
+                        pet.isAvailable
+                          ? "bg-secondary-500 text-white"
+                          : "bg-neutral-500 text-white"
+                      }`}
+                    >
+                      {pet.isAvailable ? "Disponivel" : "Indisponivel"}
+                    </span>
+                    <span className="text-xs text-neutral-400">
+                      Adicionado em {new Date(pet.createdAt).toLocaleDateString("pt-BR")}
+                    </span>
+                  </div>
 
                   {/* Key Stats Grid */}
                   <div className="mb-8 grid grid-cols-3 gap-4 border-y border-neutral-100 py-6">
@@ -427,8 +417,7 @@ export default function Pet() {
               )}
 
               {/* Adoption Process Steps */}
-              {!isOwner && !application && (
-                <div className="rounded-[var(--radius-large)] border border-neutral-100 bg-white p-6 shadow-sm">
+              <div className="rounded-[var(--radius-large)] border border-neutral-100 bg-white p-6 shadow-sm">
                   <h3 className="mb-4 font-heading text-lg font-bold text-neutral-900">
                     Processo de Adocao
                   </h3>
@@ -476,7 +465,6 @@ export default function Pet() {
                     </div>
                   </div>
                 </div>
-              )}
             </div>
           </div>
         </div>
