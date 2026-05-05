@@ -98,7 +98,7 @@ export default function Pet() {
             Solicitacao em progresso
           </button>
         );
-      case "aceita":
+      case "aprovado":
         return (
           <Link href={`/dashboard/applications/${application._id}`} className="block w-full">
             <button className="flex w-full transform items-center justify-center gap-2 rounded-[var(--radius-small)] bg-secondary-500 py-4 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:-translate-y-0.5 hover:bg-secondary-600 hover:shadow-[var(--shadow-custom-hover)]">
@@ -107,13 +107,13 @@ export default function Pet() {
             </button>
           </Link>
         );
-      case "rejeitada":
+      case "rejeitado":
         return (
           <button
             disabled
             className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-small)] bg-red-100 py-4 font-bold text-red-600"
           >
-            Solicitacao Rejeitada
+            Solicitação Rejeitada
           </button>
         );
       default:
@@ -397,16 +397,16 @@ export default function Pet() {
                         <span className="font-medium text-yellow-700">Aguardando revisao</span>
                       </>
                     )}
-                    {application.status === "aceita" && (
+                    {application.status === "aprovado" && (
                       <>
                         <Check className="h-5 w-5 text-secondary-500" />
-                        <span className="font-medium text-secondary-700">Aceita</span>
+                        <span className="font-medium text-secondary-700">Aprovado</span>
                       </>
                     )}
-                    {application.status === "rejeitada" && (
+                    {application.status === "rejeitado" && (
                       <>
                         <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                        <span className="font-medium text-red-700">Rejeitada</span>
+                        <span className="font-medium text-red-700">Rejeitado</span>
                       </>
                     )}
                   </div>

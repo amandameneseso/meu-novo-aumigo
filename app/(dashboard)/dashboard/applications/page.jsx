@@ -53,9 +53,9 @@ export default function ApplicationsPage() {
     switch (status) {
       case "pendente":
         return <Clock className="size-4 text-yellow-500" />;
-      case "aceita":
+      case "aprovado":
         return <Check className="size-4 text-green-500" />;
-      case "rejeitada":
+      case "rejeitado":
         return <X className="size-4 text-red-500" />;
       default:
         return <Clock className="size-4 text-gray-500" />;
@@ -66,9 +66,9 @@ export default function ApplicationsPage() {
     switch (status) {
       case "pendente":
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "aceita":
+      case "aprovado":
         return "bg-green-100 text-green-800 border-green-200";
-      case "rejeitada":
+      case "rejeitado":
         return "bg-red-100 text-red-800 border-red-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
@@ -99,44 +99,64 @@ export default function ApplicationsPage() {
         <h1 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
           Solicitações
         </h1>
-        <p>Gerencie seus pedidos de adoção</p>
+        <p className="text-gray-600">Gerencie seus pedidos de adoção e acompanhe o status.</p>
       </div>
 
       {/* Tabs */}
-      <div className="mb-6">
-        <div className="flex flex-row flex-wrap gap-2 sm:gap-4">
+      <div className="mb-8 border-b border-gray-200">
+        <div className="flex space-x-8">
           <button
             onClick={() => setActiveTab("sent")}
-            className={`rounded-lg px-4 py-2 font-medium transition-colors ${activeTab === "sent" ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+            className={`pb-4 text-sm font-semibold transition-all relative ${
+              activeTab === "sent" 
+                ? "text-orange-600" 
+                : "text-gray-500 hover:text-gray-700"
+            }`}
           >
-            Solicitações enviadas ({sentApplications?.length || 0})
+            Solicitações enviadas
+            <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+              {sentApplications?.length || 0}
+            </span>
+            {activeTab === "sent" && (
+              <div className="absolute bottom-0 left-0 h-0.5 w-full bg-orange-500" />
+            )}
           </button>
 
           <button
             onClick={() => setActiveTab("received")}
-            className={`rounded-lg px-4 py-2 font-medium transition-colors ${activeTab === "received" ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+            className={`pb-4 text-sm font-semibold transition-all relative ${
+              activeTab === "received" 
+                ? "text-orange-600" 
+                : "text-gray-500 hover:text-gray-700"
+            }`}
           >
-            Solicitações recebidas ({receivedApplications?.length || 0})
+            Solicitações recebidas
+            <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+              {receivedApplications?.length || 0}
+            </span>
+            {activeTab === "received" && (
+              <div className="absolute bottom-0 left-0 h-0.5 w-full bg-orange-500" />
+            )}
           </button>
         </div>
       </div>
 
       {/* Filters */}
       <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center text-2xl">
-            <Filter className="mr-2 size-5" />
-            Filtros
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center text-lg font-medium">
+            <Filter className="mr-2 size-4" />
+            Filtrar por
           </CardTitle>
         </CardHeader>
 
         <CardContent>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
-                  placeholder="Buscar solicitações..."
+                  placeholder="Buscar por ID ou nome do pet..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -146,13 +166,15 @@ export default function ApplicationsPage() {
 
             <div className="sm:w-48">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full">Status</SelectTrigger>
+                <SelectTrigger className="w-full">
+                  <span>{statusFilter === "all" ? "Todos os status" : statusFilter.charAt(0).toUpperCase() + statusFilter.slice(1)}</span>
+                </SelectTrigger>
 
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="pendente">Pendente</SelectItem>
-                  <SelectItem value="aceita">Aceita</SelectItem>
-                  <SelectItem value="rejeitada">Rejeitada</SelectItem>
+                  <SelectItem value="aprovado">Aprovado</SelectItem>
+                  <SelectItem value="rejeitado">Rejeitado</SelectItem>
                 </SelectContent>
               </Select>
             </div>

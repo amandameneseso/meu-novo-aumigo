@@ -53,15 +53,15 @@ export default function PetCard({ pet, currentUserId }) {
           variant: "secondary",
           disabled: true,
         };
-      case "aceita":
+      case "aprovado":
         return {
-          text: "Aceita",
+          text: "Aprovado",
           variant: "default",
           href: `/dashboard/pets/${pet._id}`,
         };
-      case "rejeitada":
+      case "rejeitado":
         return {
-          text: "Rejeitada",
+          text: "Rejeitado",
           variant: "destructive",
           disabled: true,
         };

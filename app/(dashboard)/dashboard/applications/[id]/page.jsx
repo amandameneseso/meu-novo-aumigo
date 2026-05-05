@@ -57,7 +57,7 @@ export default function ApplicationDetailsPage() {
   const createNotification = useMutation(api.notifications.createNotification);
 
   const handleStatusUpdate = async (status) => {
-    if (!applicant || !applicant || !pet || !currentUser) return;
+    if (!applicant || !pet || !currentUser) return;
 
     setIsUpdating(true);
     try {
@@ -66,16 +66,7 @@ export default function ApplicationDetailsPage() {
         status,
       });
 
-      // Create notification for applicant
-      await createNotification({
-        userId: application.applicantId,
-        type: "application_update",
-        title: `Solicitação ${status}`,
-        message: `Sua solicitação para ${pet.name} está ${status}`,
-      });
-
-      toast.success(`Solicitação ${status} com sucesso.`);
-      router.push("/dashboard/profile");
+      toast.success(`Solicitação ${status === "aprovado" ? "aprovada" : "rejeitada"} com sucesso.`);
     } catch (error) {
       console.error("Erro ao atualizar a solicitação", error);
       toast.error("Falha ao atualizar a solicitação. Tente novamente.");
@@ -133,7 +124,7 @@ export default function ApplicationDetailsPage() {
             className={
               application.status === "pendente"
                 ? "bg-yellow-100 text-yellow-800"
-                : application.status === "aceita"
+                : application.status === "aprovado"
                   ? "bg-green-100 text-green-800"
                   : "bg-red-100 text-red-800"
             }
@@ -332,7 +323,7 @@ export default function ApplicationDetailsPage() {
               {isOwner && application.status === "pendente" && (
                 <div className="space-y-3">
                   <Button
-                    onClick={() => handleStatusUpdate("aceita")}
+                    onClick={() => handleStatusUpdate("aprovado")}
                     disabled={isUpdating}
                     className="w-full bg-green-500 hover:bg-green-600"
                   >
@@ -342,7 +333,7 @@ export default function ApplicationDetailsPage() {
 
                   <Button
                     variant="destructive"
-                    onClick={() => handleStatusUpdate("rejeitada")}
+                    onClick={() => handleStatusUpdate("rejeitado")}
                     disabled={isUpdating}
                     className="w-full"
                   >
@@ -352,10 +343,19 @@ export default function ApplicationDetailsPage() {
                 </div>
               )}
 
-              {application.status === "aceita" && (
+              {application.status === "aprovado" && (
                 <div className="rounded-lg bg-green-50 p-4 border border-green-200">
-                  <p className="text-green-800 font-medium">Parabéns! Sua solicitação foi aceita.</p>
-                  <p className="text-green-700 text-sm mt-1">O protetor entrará em contato com você em breve.</p>
+                  {isOwner ? (
+                    <>
+                      <p className="text-green-800 font-medium">Você aprovou esta solicitação!</p>
+                      <p className="text-green-700 text-sm mt-1">Agora você pode entrar em contato com {applicant.name} através do e-mail ou telefone listados no perfil acima para combinar a entrega do pet.</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-green-800 font-medium">Parabéns! Sua solicitação foi aprovada.</p>
+                      <p className="text-green-700 text-sm mt-1">O protetor entrará em contato com você em breve para os próximos passos.</p>
+                    </>
+                  )}
                 </div>
               )}
             </CardContent>

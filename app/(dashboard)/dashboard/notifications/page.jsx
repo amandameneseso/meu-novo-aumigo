@@ -29,6 +29,9 @@ export default function NotificationsPage() {
     currentUser?._id ? { userId: currentUser._id } : "skip",
   );
   const markAsRead = useMutation(api.notifications.markAsRead);
+  const markAllAsRead = useMutation(api.notifications.markAllAsRead);
+
+  const hasUnread = notifications?.some((n) => !n.isRead);
 
   const handleMarkAsRead = async (notificationId) => {
     try {
@@ -37,6 +40,17 @@ export default function NotificationsPage() {
     } catch (error) {
       console.error("Erro ao marcar notificação como lida", error);
       toast.error("Falha ao marcar notificação como lida. Tente novamente.");
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    if (!currentUser?._id) return;
+    try {
+      await markAllAsRead({ userId: currentUser._id });
+      toast.success("Todas as notificações marcadas como lidas");
+    } catch (error) {
+      console.error("Erro ao marcar todas como lidas", error);
+      toast.error("Falha ao marcar todas como lidas.");
     }
   };
 
@@ -78,9 +92,16 @@ export default function NotificationsPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-6">
-      <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">Notificações</h1>
-        <p>Mantenha-se atualizado(a) sobre seus pedidos de adoção.</p>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Notificações</h1>
+          <p className="text-gray-600">Mantenha-se atualizado(a) sobre seus pedidos de adoção.</p>
+        </div>
+        {hasUnread && (
+          <Button variant="outline" onClick={handleMarkAllAsRead} className="flex items-center gap-2">
+            <Check className="size-4" /> Marcar todas como lidas
+          </Button>
+        )}
       </div>
 
       <div className="space-y-4">

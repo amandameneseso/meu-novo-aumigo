@@ -17,12 +17,29 @@ export const createApplication = mutation({
     }),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.insert("adoptionApplications", {
+    const applicationId = await ctx.db.insert("adoptionApplications", {
       ...args,
       status: "pendente",
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
+
+    const pet = await ctx.db.get(args.petId);
+    const applicant = await ctx.db.get(args.applicantId);
+
+    if (pet && applicant) {
+      await ctx.db.insert("notifications", {
+        userId: args.ownerId,
+        type: "adoption_request",
+        title: "Nova solicitação de adoção",
+        message: `${applicant.name} se candidatou para adotar ${pet.name}.`,
+        relatedId: applicationId,
+        isRead: false,
+        createdAt: Date.now(),
+      });
+    }
+
+    return applicationId;
   },
 });
 
@@ -59,10 +76,47 @@ export const updateApplicationStatus = mutation({
     status: v.string(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.patch(args.id, {
+    await ctx.db.patch(args.id, {
       status: args.status,
       updatedAt: Date.now(),
     });
+
+    const application = await ctx.db.get(args.id);
+    if (application) {
+      // Se a solicitação for aprovada, marcar o pet como indisponível
+      if (args.status === "aprovado") {
+        await ctx.db.patch(application.petId, {
+          isAvailable: false,
+          updatedAt: Date.now(),
+        });
+      }
+
+      const pet = await ctx.db.get(application.petId);
+      if (pet) {
+        let title = "Atualização na solicitação";
+        let message = `Sua solicitação para adotar ${pet.name} foi atualizada para: ${args.status}.`;
+
+        if (args.status === "aprovado") {
+          title = "Solicitação aprovada! 🎉";
+          message = `Parabéns! Sua solicitação para adotar ${pet.name} foi aprovada. O dono entrará em contato em breve.`;
+        } else if (args.status === "rejeitado") {
+          title = "Solicitação não aprovada";
+          message = `Infelizmente sua solicitação para adotar ${pet.name} não foi aprovada desta vez.`;
+        }
+
+        await ctx.db.insert("notifications", {
+          userId: application.applicantId,
+          type: "application_update",
+          title,
+          message,
+          relatedId: application._id,
+          isRead: false,
+          createdAt: Date.now(),
+        });
+      }
+    }
+
+    return args.id;
   },
 });
 

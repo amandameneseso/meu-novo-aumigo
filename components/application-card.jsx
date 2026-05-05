@@ -68,19 +68,6 @@ export default function ApplicationCard({
                 Ver detalhes
               </Button>
             </Link>
-
-            {application.status === "aceita" && (
-              <Link href={`/dashboard/applications/${application._id}`}>
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="w-full sm:w-auto"
-                >
-                  <Eye className="mr-2 size-4" />
-                  Ver detalhes
-                </Button>
-              </Link>
-            )}
           </div>
         </div>
       </CardContent>
