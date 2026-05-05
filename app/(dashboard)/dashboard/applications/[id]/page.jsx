@@ -278,15 +278,29 @@ export default function ApplicationDetailsPage() {
               )}
 
               <div className="space-y-2 text-gray-600">
-                <div className="flex items-center space-x-2 text-sm">
-                  <Mail className="size-4" />
-                  <span>{applicant.email}</span>
-                </div>
+                {isOwner && application.status === "aprovado" ? (
+                  <>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Mail className="size-4" />
+                      <span>{applicant.email}</span>
+                    </div>
 
-                {applicant.phone && (
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Phone className="size-4" />
-                    <span>{applicant.phone}</span>
+                    {applicant.phone && (
+                      <div className="flex items-center space-x-2 text-sm">
+                        <Phone className="size-4" />
+                        <span>{applicant.phone}</span>
+                      </div>
+                    )}
+                  </>
+                ) : isOwner ? (
+                  <div className="rounded-md bg-orange-50 p-3 text-xs text-orange-700 border border-orange-100">
+                    <p className="font-semibold mb-1">Informações de contato ocultas</p>
+                    <p>O e-mail e telefone de {applicant.name} serão revelados assim que você aprovar esta solicitação.</p>
+                  </div>
+                ) : (
+                  <div className="rounded-md bg-blue-50 p-3 text-xs text-blue-700 border border-blue-100">
+                    <p className="font-semibold mb-1">Proteção de dados</p>
+                    <p>Seus dados de contato serão compartilhados com o protetor apenas se ele aprovar seu pedido.</p>
                   </div>
                 )}
 
