@@ -435,7 +435,7 @@ export default function SettingsPage() {
             <CardDescription>
               Exclua permanentemente sua conta e todos os dados associados. Esta
               ação é irreversível. Isso excluirá permanentemente sua conta,
-              todos os seus animais de estimação, solicitações, mensagens e
+              todos os seus animais de estimação, solicitações e
               removerá todos os dados associados.
             </CardDescription>
           </CardHeader>
@@ -452,25 +452,12 @@ export default function SettingsPage() {
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Tem certeza absoluta?</AlertDialogTitle>
-                  {/* <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      you account and remove all your data from our servers,
-                      including:
-                      <ul className="mt-2 list-inside list-disc space-y-1">
-                        <li>Your profile and personal information</li>
-                        <li>All pets you have listed for adoption</li>
-                        <li>All adoption applications (sent and received)</li>
-                        <li>All messages and conversations</li>
-                        <li>All notifications and preferences</li>
-                      </ul>
-                    </AlertDialogDescription> */}
                   <div className="text-muted-foreground text-sm">
                     Esta ação é irreversível. Ela excluirá permanentemente sua conta e removerá todos os seus dados de nossos servidores, incluindo:
                     <ul className="mt-2 list-inside list-disc space-y-1">
                       <li>Seu perfil e informações pessoais;</li>
                       <li>Todos os animais que você adicionou para adoção;</li>
                       <li>Todas as solicitações de adoção (enviados e recebidos);</li>
-                      <li>Todas as mensagens e conversas;</li>
                       <li>Todas as notificações e preferências.</li>
                     </ul>
                   </div>

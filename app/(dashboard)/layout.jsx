@@ -2,17 +2,16 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 import LoadingSpinner from "@/components/loading-spinner";
 
 export default function DashboardLayout({ children }) {
   const { isSignedIn, isLoaded, user } = useUser();
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const createUser = useMutation(api.users.createUser);
   const currentUser = useQuery(
@@ -22,7 +21,7 @@ export default function DashboardLayout({ children }) {
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
-      router.push("/signin");
+      router.push("/sign-in");
     }
   }, [isSignedIn, isLoaded, router]);
 
@@ -42,12 +41,10 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 lg:flex">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="lg:flex-1">
-        <Header onMenuClick={() => setSidebarOpen(true)} />
-        <main className="pt-16">{children}</main>
-      </div>
+    <div className="min-h-screen flex flex-col bg-background-50">
+      <Header />
+      <main className="flex-1 pt-20">{children}</main>
+      <Footer />
     </div>
   );
 }

@@ -9,7 +9,6 @@ import {
   Home,
   Search,
   Bell,
-  MessageCircle,
   User,
   Settings,
   X,
@@ -34,11 +33,6 @@ const links = [
     name: "Solicitações",
     href: "/dashboard/applications",
     icon: FileText,
-  },
-  {
-    name: "Mensagens",
-    href: "/dashboard/messages",
-    icon: MessageCircle,
   },
   {
     name: "Notificações",

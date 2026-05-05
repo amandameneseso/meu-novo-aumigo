@@ -22,7 +22,6 @@ import {
   ArrowLeft,
   PawPrint,
   Calendar,
-  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import PetCard from "@/components/pet-card";
@@ -98,21 +97,30 @@ export default function UserProfilePage() {
                     </div>
                   )}
 
-                  <div className="flex items-center space-x-2">
-                    <Mail className="size-4 shrink-0" />
-                    <span>{profileUser.email}</span>
-                  </div>
+                  {isOwnProfile ? (
+                    <>
+                      <div className="flex items-center space-x-2">
+                        <Mail className="size-4 shrink-0" />
+                        <span>{profileUser.email}</span>
+                      </div>
 
-                  {profileUser.phone && (
-                    <div className="flex items-center space-x-2">
-                      <Phone className="size-4 shrink-0" />
-                      <span>{profileUser.phone}</span>
+                      {profileUser.phone && (
+                        <div className="flex items-center space-x-2">
+                          <Phone className="size-4 shrink-0" />
+                          <span>{profileUser.phone}</span>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="rounded-md bg-orange-50 p-3 text-xs text-orange-700 border border-orange-100">
+                      <p className="font-semibold mb-1">Privacidade de Contato</p>
+                      <p>E-mail e telefone ficam visíveis apenas para o dono do pet após a aprovação de uma solicitação de adoção.</p>
                     </div>
                   )}
 
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 text-gray-500">
                     <Calendar className="size-4 shrink-0" />
-                    <span>
+                    <span className="text-sm">
                       Entrou em{" "}
                       {new Date(profileUser.createdAt).toLocaleDateString()}
                     </span>

@@ -106,26 +106,6 @@ export const deleteUser = mutation({
       await ctx.db.delete(application._id);
     }
 
-    // deletar mensagens
-    const userMessages = await ctx.db
-      .query("messages")
-      .withIndex("by_sender", (q) => q.eq("senderId", args.id))
-      .collect();
-
-    for (const message of userMessages) {
-      await ctx.db.delete(message._id);
-    }
-
-    // deletar mensagens enviadas ao usuário
-    const receivedMessages = await ctx.db
-      .query("messages")
-      .withIndex("by_receiver", (q) => q.eq("receiverId", args.id))
-      .collect();
-
-    for (const message of receivedMessages) {
-      await ctx.db.delete(message._id);
-    }
-
     // deletar notificações
     const userNotifications = await ctx.db
       .query("notifications")

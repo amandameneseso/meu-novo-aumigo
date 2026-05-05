@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "./ui/card";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Calendar, Eye, MessageCircle, User } from "lucide-react";
+import { Calendar, Eye, User } from "lucide-react";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -68,19 +68,6 @@ export default function ApplicationCard({
                 Ver detalhes
               </Button>
             </Link>
-
-            {application.status === "aceita" && (
-              <Link href={`/dashboard/messages?application=${application._id}`}>
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="w-full sm:w-auto"
-                >
-                  <MessageCircle className="mr-2 size-4" />
-                  Mensagem
-                </Button>
-              </Link>
-            )}
           </div>
         </div>
       </CardContent>

@@ -60,9 +60,9 @@ export default function ProfilePage() {
     switch (status) {
       case "pendente":
         return <Clock className="size-4 text-yellow-500" />;
-      case "aceita":
+      case "aprovado":
         return <Check className="size-4 text-green-500" />;
-      case "rejeitada":
+      case "rejeitado":
         return <X className="size-4 text-red-500" />;
       default:
         return <Clock className="size-4 text-gray-500" />;
@@ -74,9 +74,9 @@ export default function ProfilePage() {
     switch (status) {
       case "pendente":
         return "bg-yellow-100 text-yellow-800";
-      case "aceita":
+      case "aprovado":
         return "bg-green-100 text-green-800";
-      case "rejeitada":
+      case "rejeitado":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -232,12 +232,12 @@ export default function ProfilePage() {
                         {new Date(application.createdAt).toLocaleDateString()}
                       </p>
 
-                      {application.status === "aceita" && (
+                      {application.status === "aprovado" && (
                         <Link
-                          href={`/dashboard/messages?application=${application._id}`}
+                          href={`/dashboard/applications/${application._id}`}
                         >
                           <Button size="sm" variant="outline">
-                            Enviar mensagem
+                            Ver detalhes
                           </Button>
                         </Link>
                       )}
@@ -288,7 +288,7 @@ export default function ProfilePage() {
                           {new Date(application.createdAt).toLocaleDateString()}
                         </p>
 
-                        {application.status === "aceita" && (
+                        {application.status === "aprovado" && (
                           <Link
                             href={`/dashboard/applications/${application._id}`}
                           >

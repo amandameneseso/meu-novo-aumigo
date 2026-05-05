@@ -137,9 +137,9 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-linear-to-t from-neutral-900/80 via-neutral-900/40 to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white mt-10">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white mt-10 pb-12 sm:pb-0">
           <span className="inline-block py-1 px-3 rounded-pill bg-white/20 backdrop-blur-md border border-white/30 text-sm font-medium mb-6 animate-fade-in-up">
-            Mais de 5.000 pets felizes e contando
+            Mais de 5.000 pets felizes e contando...
           </span>
           <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up delay-100">
             Dê a uma vida uma <br className="hidden md:block" /> <span className="text-primary-300">segunda chance</span>
@@ -165,7 +165,7 @@ export default function LandingPage() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
+        <div className="hidden sm:block absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
           <ChevronDown className="w-8 h-8" />
         </div>
       </section>
@@ -456,20 +456,14 @@ export default function LandingPage() {
           
           <div className="border-t border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
             <p>&copy; 2024 Focinhos Carentes. Todos os direitos reservados.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            {/* <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
               <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
-            </div>
+            </div> */}
           </div>
         </div>
       </footer>
 
-      {/* Mobile Sticky Donation Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-neutral-200 p-4 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-        <a href="#donate" className="block w-full bg-primary-500 text-white text-center font-bold py-3 rounded-[8px] shadow-custom">
-          Doar Hoje
-        </a>
-      </div>
     </div>
   );
 }

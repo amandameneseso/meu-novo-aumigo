@@ -2,35 +2,24 @@
 
 import LoadingSpinner from "@/components/loading-spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import {
-  Activity,
   ArrowLeft,
-  Calendar,
+  ArrowRight,
   Check,
+  ChevronRight,
+  Heart,
   Home,
   Mail,
   MapPin,
   PawPrint,
   Phone,
+  Smile,
   Stethoscope,
   User,
   Users,
-  Weight,
-  X,
-  ShieldPlus,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -77,8 +66,11 @@ export default function Pet() {
   const getActionButton = () => {
     if (isOwner) {
       return (
-        <Link href={`/dashboard/pets/${pet._id}/edit`}>
-          <Button className="w-full">Editar detalhes do pet</Button>
+        <Link href={`/dashboard/pets/${pet._id}/edit`} className="block w-full">
+          <button className="flex w-full transform items-center justify-center gap-2 rounded-[var(--radius-small)] bg-primary-500 py-4 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-[var(--shadow-custom-hover)]">
+            Editar detalhes do pet
+            <ArrowRight className="h-5 w-5" />
+          </button>
         </Link>
       );
     }
@@ -87,8 +79,11 @@ export default function Pet() {
 
     if (!status) {
       return (
-        <Link href={`/dashboard/pets/${pet._id}/adopt`}>
-          <Button className="w-full">Começar adoção</Button>
+        <Link href={`/dashboard/pets/${pet._id}/adopt`} className="block w-full">
+          <button className="flex w-full transform items-center justify-center gap-2 rounded-[var(--radius-small)] bg-primary-500 py-4 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-[var(--shadow-custom-hover)]">
+            Adotar {pet.name}
+            <ArrowRight className="h-5 w-5" />
+          </button>
         </Link>
       );
     }
@@ -96,360 +91,416 @@ export default function Pet() {
     switch (status) {
       case "pendente":
         return (
-          <Button className="w-full" variant="secondary" disabled>
-            Solicitação em progresso
-          </Button>
+          <button
+            disabled
+            className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-small)] bg-neutral-100 py-4 font-bold text-neutral-500"
+          >
+            Solicitacao em progresso
+          </button>
         );
-      case "aceita":
+      case "aprovado":
         return (
-          <Link href={`/dashboard/messages?application=${application._id}`}>
-            <Button className="w-full bg-green-500 hover:bg-green-600">
-              Enviar mensagem ao dono
-            </Button>
+          <Link href={`/dashboard/applications/${application._id}`} className="block w-full">
+            <button className="flex w-full transform items-center justify-center gap-2 rounded-[var(--radius-small)] bg-secondary-500 py-4 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:-translate-y-0.5 hover:bg-secondary-600 hover:shadow-[var(--shadow-custom-hover)]">
+              Ver detalhes da solicitacao
+              <ArrowRight className="h-5 w-5" />
+            </button>
           </Link>
         );
-      case "rejeitada":
+      case "rejeitado":
         return (
-          <Button className="w-full" variant="destructive" disabled>
+          <button
+            disabled
+            className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-small)] bg-red-100 py-4 font-bold text-red-600"
+          >
             Solicitação Rejeitada
-          </Button>
+          </button>
         );
       default:
         return (
-          <Link href={`/dashboard/pets/${pet._id}/adopt`}>
-            <Button className="w-full">Começar adoção</Button>
+          <Link href={`/dashboard/pets/${pet._id}/adopt`} className="block w-full">
+            <button className="flex w-full transform items-center justify-center gap-2 rounded-[var(--radius-small)] bg-primary-500 py-4 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-[var(--shadow-custom-hover)]">
+              Adotar {pet.name}
+              <ArrowRight className="h-5 w-5" />
+            </button>
           </Link>
         );
     }
   };
 
   return (
-    <div className="p-6 text-sm xl:text-base">
-      <div className="mb-2">
-        <Button variant="ghost" onClick={() => router.back()} className="mb-4">
-          <ArrowLeft className="mr-2 size-4" />
-          Voltar
-        </Button>
+    <>
+      {/* Breadcrumbs */}
+      <div className="border-b border-neutral-100 bg-background-50">
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          <nav className="flex items-center text-sm text-neutral-500">
+            <Link href="/dashboard" className="transition-colors hover:text-primary-600">
+              Inicio
+            </Link>
+            <ChevronRight className="mx-2 h-4 w-4 text-neutral-300" />
+            <Link href="/dashboard/discover" className="transition-colors hover:text-primary-600">
+              Descobrir
+            </Link>
+            <ChevronRight className="mx-2 h-4 w-4 text-neutral-300" />
+            <span className="font-medium capitalize text-neutral-900">{pet.name}</span>
+          </nav>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-        {/* imagens */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardContent>
-              <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-100">
+      {/* Main Content */}
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
+          {/* Left Column: Gallery & Bio */}
+          <div className="space-y-10 lg:col-span-7 xl:col-span-8">
+            {/* Gallery */}
+            <div className="space-y-4">
+              {/* Main Image */}
+              <div className="group relative aspect-[4/3] overflow-hidden rounded-[var(--radius-large)] md:aspect-[16/10]">
                 {pet.images && pet.images.length > 0 && !imageError ? (
                   <Image
                     src={pet.images[selectedImageIndex]}
-                    alt={pet.name}
+                    alt={`${pet.name} - imagem principal`}
                     fill
-                    // height={500}
-                    // width={500}
                     className="h-auto w-full rounded-lg object-contain"
                     onError={() => setImageError(true)}
+                    priority
                   />
                 ) : (
-                  <div className="flex size-full items-center justify-center">
-                    <PawPrint className="size-24 text-gray-300" />
+                  <div className="flex h-full w-full items-center justify-center bg-neutral-100">
+                    <PawPrint className="h-24 w-24 text-neutral-300" />
                   </div>
                 )}
-
-                <div className="absolute top-4 right-4">
-                  <Badge
-                    variant={pet.isAvailable ? "default" : "secondary"}
-                    className="bg-white/90 text-gray-900"
-                  >
-                    {pet.isAvailable ? "Disponível" : "Indisponível"}
-                  </Badge>
-                </div>
               </div>
 
-              {/* thumbnails */}
+              {/* Thumbnails */}
               {pet.images && pet.images.length > 1 && (
-                <div className="flex space-x-2 overflow-x-auto p-4">
-                  {pet.images.map((image, index) => (
+                <div className="grid grid-cols-4 gap-3 md:gap-4">
+                  {pet.images.slice(0, 4).map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
-                      className={`size-16 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 ${selectedImageIndex === index ? "border-orange-500" : "border-gray-200"} `}
+                      className={`aspect-square overflow-hidden rounded-[var(--radius-large)] border-2 transition-all ${
+                        selectedImageIndex === index
+                          ? "border-primary-500 shadow-sm"
+                          : "border-transparent opacity-70 hover:border-primary-300 hover:opacity-100"
+                      }`}
                     >
                       <Image
                         src={image}
-                        alt={`${pet.name} ${index + 1}`}
-                        width={64}
-                        height={64}
-                        className="size-full object-cover"
+                        alt={`${pet.name} - miniatura ${index + 1}`}
+                        width={200}
+                        height={200}
+                        className="h-full w-full object-cover"
                       />
                     </button>
                   ))}
+                  {pet.images.length > 4 && (
+                    <div className="flex aspect-square cursor-pointer items-center justify-center rounded-[var(--radius-large)] bg-neutral-100 text-sm font-medium text-neutral-500 transition-colors hover:bg-neutral-200">
+                      +{pet.images.length - 4} Mais
+                    </div>
+                  )}
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
 
-          <div className="mt-6 space-y-6">
-            {/* Owner info */}
-            {owner && !isOwner && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Protetor</CardTitle>
-                </CardHeader>
+            {/* About Section */}
+            <div>
+              <h2 className="mb-6 flex items-center gap-3 font-heading text-3xl font-bold text-neutral-900">
+                Sobre {pet.name}
+                <div className="ml-4 h-px flex-1 bg-neutral-200"></div>
+              </h2>
 
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="size-12">
-                      <AvatarImage src={owner.profileImage} />
-                      <AvatarFallback>
-                        <User className="size-6" />
-                      </AvatarFallback>
-                    </Avatar>
+              <div className="prose max-w-none">
+                <p className="text-lg leading-relaxed text-neutral-600">
+                  {pet.description}
+                </p>
 
-                    <div>
-                      <p className="font-medium">{owner.name}</p>
-                      <p className="text-sm">{owner.location}</p>
+                {pet.medicalInfo && (
+                  <>
+                    <h3 className="mt-8 mb-3 flex items-center font-heading text-xl font-bold text-neutral-900">
+                      <Stethoscope className="mr-2 h-5 w-5 text-primary-500" />
+                      Informacoes Medicas
+                    </h3>
+                    <p className="text-neutral-600">{pet.medicalInfo}</p>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Compatibility & Health Cards */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Personality & Traits */}
+              <div className="rounded-[var(--radius-large)] border border-neutral-100 bg-white p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 font-heading text-lg font-bold text-neutral-900">
+                  <Smile className="h-5 w-5 text-secondary-500" />
+                  Personalidade
+                </h3>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3 text-sm text-neutral-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-secondary-500"></span>
+                    Nivel de atividade: <span className="capitalize">{pet.activityLevel}</span>
+                  </li>
+                  {pet.goodWithKids && (
+                    <li className="flex items-center gap-3 text-sm text-neutral-700">
+                      <span className="h-1.5 w-1.5 rounded-full bg-secondary-500"></span>
+                      Bom com criancas
+                    </li>
+                  )}
+                  {pet.goodWithPets && (
+                    <li className="flex items-center gap-3 text-sm text-neutral-700">
+                      <span className="h-1.5 w-1.5 rounded-full bg-secondary-500"></span>
+                      Bom com outros animais
+                    </li>
+                  )}
+                  {pet.isHouseTrained && (
+                    <li className="flex items-center gap-3 text-sm text-neutral-700">
+                      <span className="h-1.5 w-1.5 rounded-full bg-secondary-500"></span>
+                      Adestrado
+                    </li>
+                  )}
+                </ul>
+              </div>
+
+              {/* Health & History */}
+              <div className="rounded-[var(--radius-large)] border border-neutral-100 bg-white p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 font-heading text-lg font-bold text-neutral-900">
+                  <Check className="h-5 w-5 text-primary-500" />
+                  Saude
+                </h3>
+                <ul className="space-y-3">
+                  {pet.isCastrado && (
+                    <li className="flex items-center gap-3 text-sm text-neutral-700">
+                      <Check className="h-4 w-4 text-secondary-500" />
+                      Castrado
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Sticky Adoption Card */}
+          <div className="relative lg:col-span-5 xl:col-span-4">
+            <div className="sticky top-24 space-y-6">
+              {/* Main Profile Card */}
+              <div className="overflow-hidden rounded-[var(--radius-large)] border border-neutral-100 bg-white shadow-[var(--shadow-custom)]">
+                <div className="p-6 md:p-8">
+                  <div className="mb-2 flex items-start justify-between">
+                    <h1 className="font-heading text-4xl font-bold capitalize text-neutral-900">
+                      {pet.name}
+                    </h1>
+                  </div>
+                  <p className="mb-2 text-lg font-medium capitalize text-neutral-500">
+                    {pet.type} &middot; {pet.breed} &middot; {pet.gender}
+                  </p>
+                  <div className="mb-6 flex flex-wrap items-center gap-3">
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-sm ${
+                        pet.isAvailable
+                          ? "bg-secondary-500 text-white"
+                          : "bg-neutral-500 text-white"
+                      }`}
+                    >
+                      {pet.isAvailable ? "Disponivel" : "Indisponivel"}
+                    </span>
+                    <span className="text-xs text-neutral-400">
+                      Adicionado em {new Date(pet.createdAt).toLocaleDateString("pt-BR")}
+                    </span>
+                  </div>
+
+                  {/* Key Stats Grid */}
+                  <div className="mb-8 grid grid-cols-3 gap-4 border-y border-neutral-100 py-6">
+                    <div className="text-center">
+                      <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                        Idade
+                      </span>
+                      <span className="block text-lg font-bold text-neutral-900">
+                        {pet.age} {pet.age === 1 ? "ano" : "anos"}
+                      </span>
+                    </div>
+                    <div className="border-l border-neutral-100 text-center">
+                      <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                        Porte
+                      </span>
+                      <span className="block text-lg font-bold capitalize text-neutral-900">
+                        {pet.size}
+                      </span>
+                    </div>
+                    <div className="border-l border-neutral-100 text-center">
+                      <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                        Local
+                      </span>
+                      <span className="block text-lg font-bold capitalize text-neutral-900">
+                        {pet.location}
+                      </span>
                     </div>
                   </div>
 
-                  {owner.bio && (
-                    <p className="text-sm text-gray-700">{owner.bio}</p>
+                  {/* Adoption Fee */}
+                  {pet.adoptionFee !== undefined && pet.adoptionFee !== null && (
+                    <div className="mb-6 flex items-center justify-between">
+                      <span className="font-medium text-neutral-600">Taxa de adocao</span>
+                      <span className="font-heading text-2xl font-bold text-primary-600">
+                        {new Intl.NumberFormat("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        }).format(pet.adoptionFee)}
+                      </span>
+                    </div>
                   )}
 
-                  <div className="space-y-2">
-                    {owner.email && (
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <Mail className="size-4" />
-                        <span>{owner.email}</span>
-                      </div>
-                    )}
-                    {owner.phone && (
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <Phone className="size-4" />
-                        <span>{owner.phone}</span>
-                      </div>
+                  {/* CTAs */}
+                  <div className="space-y-3">
+                    {getActionButton()}
+
+                    {!isOwner && owner && (
+                      <Link
+                        href={`/dashboard/users/${owner._id}`}
+                        className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-small)] border border-neutral-200 bg-white py-3.5 font-semibold text-neutral-700 transition-all hover:bg-neutral-50"
+                      >
+                        <User className="h-5 w-5 text-primary-500" />
+                        Ver perfil do protetor
+                      </Link>
                     )}
                   </div>
+                </div>
 
-                  <div className="flex w-full items-center justify-center">
-                    <Link href={`/dashboard/users/${owner._id}`}>
-                      <Button variant="outline" className="mb-4">
-                        Ver perfil
-                      </Button>
-                    </Link>
-                    {/* CTA button */}
-                    {/* <Button>
-                          <CardContent className="">{getActionButton()}</CardContent>
-                      </Button> */}
-                    {/* {getActionButton()} */}
+                {/* Owner Info Footer */}
+                {owner && (
+                  <div className="flex items-center gap-3 border-t border-neutral-100 bg-neutral-50 px-6 py-4">
+                    <Avatar className="h-10 w-10 border border-neutral-200 bg-white">
+                      <AvatarImage src={owner.profileImage} />
+                      <AvatarFallback>
+                        <User className="h-5 w-5 text-neutral-400" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wide text-neutral-400">
+                        Protetor
+                      </p>
+                      <p className="text-sm font-semibold text-neutral-900">{owner.name}</p>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-            )}
+                )}
+              </div>
 
-            {/* status da solicitação */}
-            {application && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Status da solicitação</CardTitle>
-                </CardHeader>
-
-                <CardContent>
-                  <div className="flex items-center space-x-2">
+              {/* Application Status Card */}
+              {application && (
+                <div className="rounded-[var(--radius-large)] border border-neutral-100 bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 font-heading text-lg font-bold text-neutral-900">
+                    Status da Solicitacao
+                  </h3>
+                  <div className="flex items-center gap-3">
                     {application.status === "pendente" && (
                       <>
-                        <div className="size-3 animate-pulse rounded-full bg-yellow-500"></div>
-                        <span className="text-yellow-700">
-                          Aguardando revisão
-                        </span>
+                        <div className="h-3 w-3 animate-pulse rounded-full bg-yellow-500"></div>
+                        <span className="font-medium text-yellow-700">Aguardando revisao</span>
                       </>
                     )}
-
-                    {application.status === "aceita" && (
+                    {application.status === "aprovado" && (
                       <>
-                        <Check className="size-4 text-green-500" />
-                        <span className="text-green-700">Aceita</span>
+                        <Check className="h-5 w-5 text-secondary-500" />
+                        <span className="font-medium text-secondary-700">Aprovado</span>
                       </>
                     )}
-
-                    {application.status === "rejeitada" && (
+                    {application.status === "rejeitado" && (
                       <>
-                        <X className="size-4 text-red-500" />
-                        <span className="text-red-700">Rejeitada</span>
+                        <div className="h-3 w-3 rounded-full bg-red-500"></div>
+                        <span className="font-medium text-red-700">Rejeitado</span>
                       </>
                     )}
                   </div>
-
-                  <p className="mt-2 text-sm text-gray-600">
-                    Enviada em{" "}
-                    {new Date(application.createdAt).toLocaleDateString()}
+                  <p className="mt-2 text-sm text-neutral-500">
+                    Enviada em {new Date(application.createdAt).toLocaleDateString("pt-BR")}
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              )}
+
+              {/* Adoption Process Steps */}
+              <div className="rounded-[var(--radius-large)] border border-neutral-100 bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 font-heading text-lg font-bold text-neutral-900">
+                    Processo de Adocao
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-600">
+                          1
+                        </div>
+                        <div className="my-1 h-full w-px bg-neutral-100"></div>
+                      </div>
+                      <div className="pb-4">
+                        <h4 className="text-sm font-bold text-neutral-900">Enviar Solicitacao</h4>
+                        <p className="mt-1 text-xs text-neutral-500">
+                          Preencha o formulario para nos ajudar a encontrar o melhor lar.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-600">
+                          2
+                        </div>
+                        <div className="my-1 h-full w-px bg-neutral-100"></div>
+                      </div>
+                      <div className="pb-4">
+                        <h4 className="text-sm font-bold text-neutral-900">Conhecer o Pet</h4>
+                        <p className="mt-1 text-xs text-neutral-500">
+                          Agende uma visita para conhecer {pet.name} pessoalmente.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-600">
+                          3
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-neutral-900">Lar Doce Lar</h4>
+                        <p className="mt-1 text-xs text-neutral-500">
+                          Complete a documentacao e leve seu novo melhor amigo para casa.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Mobile Sticky Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-neutral-200 bg-white p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] lg:hidden">
+        <div className="flex items-center gap-3">
+          {pet.adoptionFee !== undefined && pet.adoptionFee !== null && (
+            <div className="flex-1">
+              <p className="text-xs font-medium uppercase text-neutral-500">Taxa de adocao</p>
+              <p className="font-heading text-xl font-bold text-primary-600">
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(pet.adoptionFee)}
+              </p>
+            </div>
+          )}
+          <div className={pet.adoptionFee ? "flex-[2]" : "flex-1"}>
+            {isOwner ? (
+              <Link href={`/dashboard/pets/${pet._id}/edit`}>
+                <button className="w-full rounded-[var(--radius-small)] bg-primary-500 py-3.5 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:bg-primary-600">
+                  Editar Pet
+                </button>
+              </Link>
+            ) : (
+              <Link href={`/dashboard/pets/${pet._id}/adopt`}>
+                <button className="w-full rounded-[var(--radius-small)] bg-primary-500 py-3.5 font-bold text-white shadow-[var(--shadow-custom)] transition-all hover:bg-primary-600">
+                  Adotar {pet.name}
+                </button>
+              </Link>
             )}
           </div>
         </div>
-
-        {/* detalhes do pet */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="capitalize">
-            <CardTitle className="text-2xl">{pet.name}</CardTitle>
-            <CardDescription className="text-lg">
-              {pet.breed} &middot; {pet.type}
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent className="space-y-6">
-            {/* informações básicas */}
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              <div className="flex items-center space-x-2">
-                <Calendar className="size-4 text-gray-500" />
-                <div>
-                  <p className="text-sm text-gray-500">Idade</p>
-                  <p className="font-medium">
-                    {pet.age} {pet.age === 1 ? "ano" : "anos"}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Weight className="size-4 text-gray-500" />
-                <div>
-                  <p className="text-sm text-gray-500">Tamanho</p>
-                  <p className="font-medium capitalize">{pet.size}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <User className="size-4 text-gray-500" />
-                <div>
-                  <p className="text-sm text-gray-500">Gênero</p>
-                  <p className="font-medium capitalize">{pet.gender}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <MapPin className="size-4 text-gray-500" />
-                <div>
-                  <p className="text-sm text-gray-500">Localização</p>
-                  <p className="font-medium capitalize">{pet.location}</p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* características */}
-            <div>
-              <h3 className="mb-4 font-semibold">Características</h3>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex items-center space-x-3">
-                  <div className="rounded bg-orange-100 p-2">
-                    <Activity className="size-5 text-orange-500" />
-                  </div>
-
-                  <div>
-                    <p className="font-medium">Nível de atividade</p>
-                    <p className="text-sm text-gray-600 capitalize">
-                      {pet.activityLevel}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <div className="rounded bg-blue-100 p-2">
-                    <Users className="size-5 text-blue-500" />
-                  </div>
-
-                  <div>
-                    <p className="font-medium">Sociável com crianças</p>
-                    <p className="text-sm text-gray-600 capitalize">
-                      {pet.goodWithKids ? "Sim" : "Não"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <div className="rounded bg-pink-100 p-2">
-                    <PawPrint className="size-5 text-pink-500" />
-                  </div>
-
-                  <div>
-                    <p className="font-medium">Sociável com animais</p>
-                    <p className="text-sm text-gray-600 capitalize">
-                      {pet.goodWithPets ? "Sim" : "Não"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <div className="rounded bg-green-100 p-2">
-                    <Home className="size-5 text-green-500" />
-                  </div>
-
-                  <div>
-                    <p className="font-medium">Adestrado</p>
-                    <p className="text-sm text-gray-600 capitalize">
-                      {pet.isHouseTrained ? "Sim" : "Não"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <div className="rounded bg-yellow-100 p-2">
-                    <ShieldPlus className="size-5 text-yellow-500" />
-                  </div>
-
-                  <div>
-                    <p className="font-medium">Castrado</p>
-                    <p className="text-sm text-gray-600 capitalize">
-                      {pet.isCastrado ? "Sim" : "Não"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* descrição */}
-            <div>
-              <h3 className="mb-3 font-semibold">História de {pet.name}</h3>
-              <p className="leading-relaxed text-gray-700">{pet.description}</p>
-            </div>
-
-            {/* informações médicas */}
-            {pet.medicalInfo && (
-              <>
-                <Separator />
-                <div>
-                  <h3 className="mb-3 flex items-center font-semibold">
-                    <Stethoscope className="mr-2 size-5 text-red-500" />
-                    Informações médicas
-                  </h3>
-                  <p className="leading-relazed text-gray-700">
-                    {pet.medicalInfo}
-                  </p>
-                </div>
-              </>
-            )}
-
-            {/* taxa de adoção */}
-            {pet.adoptionFee !== undefined && pet.adoptionFee !== null && (
-              <>
-                <Separator />
-                <div>
-                  <h3 className="mb-3 font-semibold">Taxa de adoção</h3>
-                  <p className="text-2xl font-bold text-orange-500">
-                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pet.adoptionFee)}
-                  </p>
-                </div>
-              </>
-            )}
-            <div className="flex w-full items-center justify-center">
-              {getActionButton()}
-            </div>
-          </CardContent>
-        </Card>
       </div>
-    </div>
+    </>
   );
 }

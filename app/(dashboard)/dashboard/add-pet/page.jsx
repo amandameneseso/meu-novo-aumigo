@@ -149,19 +149,13 @@ export default function AddPetPage() {
     <div className="mx-auto max-w-4xl p-6">
       {/* Header */}
       <div className="mb-8">
-        <Link href="/dashboard/profile">
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="mr-2 size-4" />
-            Voltar ao perfil
-          </Button>
-        </Link>
 
         <div className="text-center">
           <PawPrint className="mx-auto mb-4 size-12 text-orange-500" />
           <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Adicionar pet
+            Doar pet
           </h1>
-          <p>Ajude um bichinho a encontrar um lar definitivo!</p>
+          <p>Ajude um bichinho a encontrar um lar!</p>
         </div>
       </div>
 
@@ -318,7 +312,7 @@ export default function AddPetPage() {
                 onChange={(e) =>
                   handleInputChange("description", e.target.value)
                 }
-                placeholder="Descreva a personalidade, os hábitos e quaisquer necessidades especiais do animal de estimação..."
+                placeholder="Descreva a personalidade, os hábitos e quaisquer necessidades especiais do animal de estimação."
                 rows={4}
               />
             </div>
@@ -455,7 +449,7 @@ export default function AddPetPage() {
                 onChange={(e) =>
                   handleInputChange("medicalInfo", e.target.value)
                 }
-                placeholder="Quaisquer condições médicas, vacinas ou necessidades especiais de cuidados..."
+                placeholder="Quaisquer condições médicas, vacinas ou necessidades especiais de cuidados."
                 rows={3}
               />
             </div>

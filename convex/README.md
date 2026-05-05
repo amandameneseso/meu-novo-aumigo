@@ -61,8 +61,8 @@ export const myMutationFunction = mutation({
     // Insert or modify documents in the database here.
     // Mutations can also read from the database like queries.
     // See https://docs.convex.dev/database/writing-data.
-    const message = { body: args.first, author: args.second };
-    const id = await ctx.db.insert("messages", message);
+    const pet = { name: args.first, type: args.second };
+    const id = await ctx.db.insert("pets", pet);
 
     // Optionally, return a value from your mutation.
     return await ctx.db.get(id);

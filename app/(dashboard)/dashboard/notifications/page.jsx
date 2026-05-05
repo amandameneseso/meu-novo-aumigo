@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bell, PawPrint, MessageCircle, Check, Eye } from "lucide-react";
+import { Bell, PawPrint, Check, Eye } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/loading-spinner";
@@ -29,6 +29,9 @@ export default function NotificationsPage() {
     currentUser?._id ? { userId: currentUser._id } : "skip",
   );
   const markAsRead = useMutation(api.notifications.markAsRead);
+  const markAllAsRead = useMutation(api.notifications.markAllAsRead);
+
+  const hasUnread = notifications?.some((n) => !n.isRead);
 
   const handleMarkAsRead = async (notificationId) => {
     try {
@@ -40,14 +43,23 @@ export default function NotificationsPage() {
     }
   };
 
+  const handleMarkAllAsRead = async () => {
+    if (!currentUser?._id) return;
+    try {
+      await markAllAsRead({ userId: currentUser._id });
+      toast.success("Todas as notificações marcadas como lidas");
+    } catch (error) {
+      console.error("Erro ao marcar todas como lidas", error);
+      toast.error("Falha ao marcar todas como lidas.");
+    }
+  };
+
   const getNotificationIcon = (type) => {
     switch (type) {
       case "adoption_request":
         return <PawPrint className="size-5 text-orange-500" />;
       case "application_update":
         return <Check className="size-5 text-green-500" />;
-      case "message":
-        return <MessageCircle className="size-5 text-blue-500" />;
       default:
         return <Bell className="size-5 text-gray-500" />;
     }
@@ -71,16 +83,6 @@ export default function NotificationsPage() {
             </Button>
           </Link>
         );
-      case "message":
-        return (
-          <Link
-            href={`/dashboard/messages?application=${notification.relatedId}`}
-          >
-            <Button size="sm" variant="outline">
-              Ver mensagem
-            </Button>
-          </Link>
-        );
       default:
         return null;
     }
@@ -90,9 +92,16 @@ export default function NotificationsPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-6">
-      <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">Notificações</h1>
-        <p>Mantenha-se atualizado(a) sobre seus pedidos de adoção.</p>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Notificações</h1>
+          <p className="text-gray-600">Mantenha-se atualizado(a) sobre seus pedidos de adoção.</p>
+        </div>
+        {hasUnread && (
+          <Button variant="outline" onClick={handleMarkAllAsRead} className="flex items-center gap-2">
+            <Check className="size-4" /> Marcar todas como lidas
+          </Button>
+        )}
       </div>
 
       <div className="space-y-4">

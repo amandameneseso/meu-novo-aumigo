@@ -16,6 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
@@ -27,7 +28,7 @@ import {
   Phone,
   MapPin,
   Calendar,
-  MessageCircle,
+  PawPrint,
 } from "lucide-react";
 import LoadingSpinner from "@/components/loading-spinner";
 
@@ -56,7 +57,7 @@ export default function ApplicationDetailsPage() {
   const createNotification = useMutation(api.notifications.createNotification);
 
   const handleStatusUpdate = async (status) => {
-    if (!applicant || !applicant || !pet || !currentUser) return;
+    if (!applicant || !pet || !currentUser) return;
 
     setIsUpdating(true);
     try {
@@ -65,16 +66,7 @@ export default function ApplicationDetailsPage() {
         status,
       });
 
-      // Create notification for applicant
-      await createNotification({
-        userId: application.applicantId,
-        type: "application_update",
-        title: `Solicitação ${status}`,
-        message: `Sua solicitação para ${pet.name} está ${status}`,
-      });
-
-      toast.success(`Solicitação ${status} com sucesso.`);
-      router.push("/dashboard/profile");
+      toast.success(`Solicitação ${status === "aprovado" ? "aprovada" : "rejeitada"} com sucesso.`);
     } catch (error) {
       console.error("Erro ao atualizar a solicitação", error);
       toast.error("Falha ao atualizar a solicitação. Tente novamente.");
@@ -132,7 +124,7 @@ export default function ApplicationDetailsPage() {
             className={
               application.status === "pendente"
                 ? "bg-yellow-100 text-yellow-800"
-                : application.status === "aceita"
+                : application.status === "aprovado"
                   ? "bg-green-100 text-green-800"
                   : "bg-red-100 text-red-800"
             }
@@ -151,8 +143,19 @@ export default function ApplicationDetailsPage() {
 
             <CardContent>
               <div className="flex items-center space-x-4">
-                <div className="flex size-16 items-center justify-center rounded-lg bg-gray-100">
-                  <User className="size-8 text-gray-400" />
+                <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                  {pet.images && pet.images.length > 0 ? (
+                    <Image
+                      src={pet.images[0]}
+                      alt={pet.name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex size-full items-center justify-center">
+                      <PawPrint className="size-8 text-gray-400" />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -193,17 +196,6 @@ export default function ApplicationDetailsPage() {
               </div>
 
               <Separator />
-
-              {/* <div>
-                <h4 className="mb-2 font-medium text-gray-900">
-                  Work schedule
-                </h4>
-                <p className="text-gray-700">
-                  {application.applicationData.workSchedule}
-                </p>
-              </div>
-
-              <Separator /> */}
 
               <div>
                 <h4 className="mb-2 font-medium text-gray-900">Outros bichinhos na casa</h4>
@@ -286,15 +278,29 @@ export default function ApplicationDetailsPage() {
               )}
 
               <div className="space-y-2 text-gray-600">
-                <div className="flex items-center space-x-2 text-sm">
-                  <Mail className="size-4" />
-                  <span>{applicant.email}</span>
-                </div>
+                {isOwner && application.status === "aprovado" ? (
+                  <>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Mail className="size-4" />
+                      <span>{applicant.email}</span>
+                    </div>
 
-                {applicant.phone && (
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Phone className="size-4" />
-                    <span>{applicant.phone}</span>
+                    {applicant.phone && (
+                      <div className="flex items-center space-x-2 text-sm">
+                        <Phone className="size-4" />
+                        <span>{applicant.phone}</span>
+                      </div>
+                    )}
+                  </>
+                ) : isOwner ? (
+                  <div className="rounded-md bg-orange-50 p-3 text-xs text-orange-700 border border-orange-100">
+                    <p className="font-semibold mb-1">Informações de contato ocultas</p>
+                    <p>O e-mail e telefone de {applicant.name} serão revelados assim que você aprovar esta solicitação.</p>
+                  </div>
+                ) : (
+                  <div className="rounded-md bg-blue-50 p-3 text-xs text-blue-700 border border-blue-100">
+                    <p className="font-semibold mb-1">Proteção de dados</p>
+                    <p>Seus dados de contato serão compartilhados com o protetor apenas se ele aprovar seu pedido.</p>
                   </div>
                 )}
 
@@ -331,7 +337,7 @@ export default function ApplicationDetailsPage() {
               {isOwner && application.status === "pendente" && (
                 <div className="space-y-3">
                   <Button
-                    onClick={() => handleStatusUpdate("aceita")}
+                    onClick={() => handleStatusUpdate("aprovado")}
                     disabled={isUpdating}
                     className="w-full bg-green-500 hover:bg-green-600"
                   >
@@ -341,7 +347,7 @@ export default function ApplicationDetailsPage() {
 
                   <Button
                     variant="destructive"
-                    onClick={() => handleStatusUpdate("rejeitada")}
+                    onClick={() => handleStatusUpdate("rejeitado")}
                     disabled={isUpdating}
                     className="w-full"
                   >
@@ -351,15 +357,20 @@ export default function ApplicationDetailsPage() {
                 </div>
               )}
 
-              {application.status === "aceita" && (
-                <Link
-                  href={`/dashboard/messages?application=${application._id}`}
-                >
-                  <Button className="w-full">
-                    <MessageCircle className="mr-2 size-4" />
-                    Enviar mensagem
-                  </Button>
-                </Link>
+              {application.status === "aprovado" && (
+                <div className="rounded-lg bg-green-50 p-4 border border-green-200">
+                  {isOwner ? (
+                    <>
+                      <p className="text-green-800 font-medium">Você aprovou esta solicitação!</p>
+                      <p className="text-green-700 text-sm mt-1">Agora você pode entrar em contato com {applicant.name} através do e-mail ou telefone listados no perfil acima para combinar a entrega do pet.</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-green-800 font-medium">Parabéns! Sua solicitação foi aprovada.</p>
+                      <p className="text-green-700 text-sm mt-1">O protetor entrará em contato com você em breve para os próximos passos.</p>
+                    </>
+                  )}
+                </div>
               )}
             </CardContent>
           </Card>
